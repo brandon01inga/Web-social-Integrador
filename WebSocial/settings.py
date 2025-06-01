@@ -37,7 +37,43 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'Usuarios',
+
+    'django.contrib.sites',           # Requerido por allauth
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
 ]
+
+SITE_ID = 1
+
+AUTH_USER_MODEL = 'usuarios.Usuario'  # App 'usuarios', modelo 'Usuario'
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',           # backend estándar de Django
+    'allauth.account.auth_backends.AuthenticationBackend', # backend de allauth
+]
+
+# Deben verificarse correos obligatoriamente
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_EMAIL_REQUIRED = True
+
+# Usaremos el correo como identificador de login
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_USERNAME_REQUIRED = False
+
+# Redirecciones después de login/logout
+LOGIN_REDIRECT_URL = '/'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/usuarios/login/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'suarezvitealdair@gmail.com'              # tu cuenta Gmail
+EMAIL_HOST_PASSWORD = 'zauy jzqc myim ysqa'      # contraseña de aplicación
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
