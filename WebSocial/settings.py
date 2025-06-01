@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Usuarios',
-
     'django.contrib.sites',           # Requerido por allauth
     'allauth',
     'allauth.account',
@@ -47,32 +46,35 @@ INSTALLED_APPS = [
 
 SITE_ID = 1
 
-AUTH_USER_MODEL = 'usuarios.Usuario'  # App 'usuarios', modelo 'Usuario'
-
 AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',           # backend estándar de Django
-    'allauth.account.auth_backends.AuthenticationBackend', # backend de allauth
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-# Deben verificarse correos obligatoriamente
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
-ACCOUNT_EMAIL_REQUIRED = True
+# Usar tu modelo de usuario personalizado
+AUTH_USER_MODEL = 'Usuarios.UsuarioPersonalizado'
 
-# Usaremos el correo como identificador de login
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
+# Redirección después del login
+LOGIN_REDIRECT_URL = '/'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
+
+# Verificación por correo
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False
 
-# Redirecciones después de login/logout
-LOGIN_REDIRECT_URL = '/'
-ACCOUNT_LOGOUT_REDIRECT_URL = '/usuarios/login/'
+# Método de autenticación por email
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# Reemplazar por tu dominio
+DEFAULT_FROM_EMAIL = 'suarezvitealdair@gmail.com'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'suarezvitealdair@gmail.com'              # tu cuenta Gmail
-EMAIL_HOST_PASSWORD = 'zauy jzqc myim ysqa'      # contraseña de aplicación
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'suarezvitealdair@gmail.com'
+EMAIL_HOST_PASSWORD = 'mxdr kcgp epug dlhk'
+
 
 
 MIDDLEWARE = [
@@ -83,6 +85,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
+
 ]
 
 ROOT_URLCONF = 'WebSocial.urls'
