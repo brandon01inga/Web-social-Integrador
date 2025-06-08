@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Amigos - impulsa+UPT</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        background-color: #f9fafb;
+        color: #374151;
+      }
+
+      /* Header */
+      .header {
+        background: white;
+        border-bottom: 1px solid #e5e7eb;
+        padding: 12px 16px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      .header-content {
+        max-width: 1280px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      /* NUEVO: Logo impulsa+UTP */
+      .logo-container {
+        display: flex;
+        align-items: center;
+        margin-right: 24px;
+      }
+
+      .logo {
+        height: 32px;
+        width: auto;
+      }
+
+      .search-container {
+        flex: 1;
+        max-width: 384px;
+        position: relative;
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 8px 12px 8px 40px;
+        background: #f3f4f6;
+        border: none;
+        border-radius: 8px;
+        font-size: 14px;
+      }
+
+      .search-icon {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #9ca3af;
+      }
+
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .icon-button {
+        color: #6b7280;
+        cursor: pointer;
+        padding: 8px;
+        border-radius: 8px;
+        transition: all 0.2s;
+        position: relative;
+      }
+
+      .icon-button:hover {
+        background: #f3f4f6;
+      }
+
+      /* NUEVO: Badge de notificaciones */
+      .notification-badge {
+        position: absolute;
+        top: 4px;
+        right: 4px;
+        background: #dc2626;
+        color: white;
+        border-radius: 50%;
+        width: 16px;
+        height: 16px;
+        font-size: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+      }
+
+      /* MODIFICADO: Avatar con foto real */
+      .avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        overflow: hidden;
+        cursor: pointer;
+        border: 2px solid #e5e7eb;
+        transition: border-color 0.2s;
+      }
+
+      .avatar:hover {
+        border-color: #dc2626;
+      }
+
+      .avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      /* Main Layout */
+      .main-container {
+        max-width: 1280px;
+        margin: 0 auto;
+        display: flex;
+        gap: 24px;
+        padding: 16px;
+      }
+
+      /* Left Sidebar */
+      .left-sidebar {
+        width: 256px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .nav-card {
+        background: white;
+        border-radius: 8px;
+        padding: 16px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      .nav-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 8px 12px;
+        border-radius: 8px;
+        text-decoration: none;
+        color: #374151;
+        transition: all 0.2s;
+      }
+
+      .nav-item:hover {
+        background: #f9fafb;
+      }
+
+      .nav-item.active {
+        background: #fef2f2;
+        color: #dc2626;
+        font-weight: 500;
+      }
+
+      /* NUEVO: Iconos específicos para navegación */
+      .nav-icon {
+        width: 20px;
+        height: 20px;
+        fill: currentColor;
+      }
+
+      .profile-card {
+        background: white;
+        border-radius: 8px;
+        padding: 16px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      .profile-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        cursor: pointer;
+        padding: 8px;
+        border-radius: 8px;
+        transition: background-color 0.2s;
+      }
+
+      .profile-info:hover {
+        background: #f9fafb;
+      }
+
+      /* MODIFICADO: Avatar del perfil con foto real */
+      .profile-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 2px solid #e5e7eb;
+      }
+
+      .profile-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .profile-name {
+        font-weight: 500;
+        color: #111827;
+      }
+
+      .profile-link {
+        font-size: 14px;
+        color: #6b7280;
+      }
+
+      /* Main Content */
+      .main-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+
+      /* Friends Search */
+      .friends-search {
+        background: white;
+        border-radius: 8px;
+        padding: 16px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      .friends-search-input {
+        width: 100%;
+        padding: 10px 16px 10px 40px;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        font-size: 14px;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239ca3af'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'%3E%3C/path%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: 12px center;
+        background-size: 20px;
+        transition: border-color 0.2s;
+      }
+
+      .friends-search-input:focus {
+        outline: none;
+        border-color: #dc2626;
+      }
+
+      /* Friends Tabs */
+      .friends-tabs {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .tabs-list {
+        display: flex;
+        list-style: none;
+        border-bottom: 1px solid #e5e7eb;
+      }
+
+      .tab-item {
+        flex: 1;
+        text-align: center;
+      }
+
+      .tab-link {
+        display: block;
+        padding: 16px;
+        color: #6b7280;
+        text-decoration: none;
+        font-weight: 500;
+        border-bottom: 2px solid transparent;
+        transition: all 0.2s;
+        position: relative;
+      }
+
+      .tab-link.active {
+        color: #111827;
+        border-bottom-color: #dc2626;
+      }
+
+      .tab-link:hover:not(.active) {
+        background: #f9fafb;
+      }
+
+      .tab-notification-badge {
+        position: absolute;
+        top: 12px;
+        right: 30%;
+        background: #dc2626;
+        color: white;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      /* Friends Grid */
+      .friends-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 16px;
+      }
+
+      .friend-card {
+        background: white;
+        border-radius: 8px;
+        padding: 16px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        transition: all 0.2s;
+      }
+
+      .friend-card:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        transform: translateY(-2px);
+      }
+
+      /* MODIFICADO: Avatar del amigo con foto real */
+      .friend-avatar {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 3px solid #e5e7eb;
+        flex-shrink: 0;
+      }
+
+      .friend-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .friend-info {
+        flex: 1;
+      }
+
+      .friend-name {
+        font-weight: 600;
+        color: #111827;
+        margin-bottom: 8px;
+        font-size: 16px;
+      }
+
+      .friend-meta {
+        font-size: 14px;
+        color: #6b7280;
+        margin-bottom: 12px;
+      }
+
+      .friend-actions {
+        display: flex;
+        gap: 8px;
+      }
+
+      .btn {
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-weight: 500;
+        font-size: 14px;
+        cursor: pointer;
+        border: none;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .btn-primary {
+        background: #dc2626;
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background: #b91c1c;
+        transform: translateY(-1px);
+      }
+
+      .btn-secondary {
+        background: white;
+        color: #374151;
+        border: 1px solid #e5e7eb;
+      }
+
+      .btn-secondary:hover {
+        background: #f9fafb;
+        border-color: #d1d5db;
+      }
+
+      /* Right Sidebar */
+      .right-sidebar {
+        width: 320px;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+
+      /* Events Card */
+      .events-card {
+        background: white;
+        border-radius: 8px;
+        padding: 16px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      .events-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 16px;
+      }
+
+      .events-icon {
+        color: #dc2626;
+      }
+
+      .events-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #111827;
+      }
+
+      .events-list {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .event-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 12px;
+        border-radius: 8px;
+        transition: background-color 0.2s;
+        cursor: pointer;
+      }
+
+      .event-item:hover {
+        background: #f9fafb;
+      }
+
+      .event-dot {
+        width: 8px;
+        height: 8px;
+        background: #dc2626;
+        border-radius: 50%;
+        margin-top: 8px;
+        flex-shrink: 0;
+      }
+
+      .event-title {
+        font-weight: 500;
+        color: #111827;
+      }
+
+      .event-time {
+        font-size: 14px;
+        color: #6b7280;
+      }
+
+      .view-all-events {
+        color: #dc2626;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 14px;
+        margin-top: 16px;
+        display: inline-block;
+        padding: 8px 0;
+      }
+
+      .view-all-events:hover {
+        color: #b91c1c;
+        text-decoration: underline;
+      }
+
+      /* Contacts Card */
+      .contacts-card {
+        background: white;
+        border-radius: 8px;
+        padding: 16px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      .contacts-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 16px;
+      }
+
+      .contacts-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #111827;
+      }
+
+      .contacts-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .contact-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 8px;
+        border-radius: 8px;
+        transition: background-color 0.2s;
+        cursor: pointer;
+      }
+
+      .contact-item:hover {
+        background: #f9fafb;
+      }
+
+      /* MODIFICADO: Avatar del contacto con foto real */
+      .contact-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 2px solid #e5e7eb;
+      }
+
+      .contact-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .contact-name {
+        font-weight: 500;
+        color: #111827;
+      }
+
+      /* NUEVO: Estado en línea */
+      .online-status {
+        position: relative;
+      }
+
+      .online-indicator {
+        position: absolute;
+        bottom: 2px;
+        right: 2px;
+        width: 12px;
+        height: 12px;
+        background: #10b981;
+        border: 2px solid white;
+        border-radius: 50%;
+      }
+
+      /* Icons */
+      .icon {
+        width: 20px;
+        height: 20px;
+        fill: currentColor;
+      }
+
+      .icon-sm {
+        width: 16px;
+        height: 16px;
+        fill: currentColor;
+      }
+
+      /* NUEVO: Animaciones */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .friend-card {
+        animation: fadeIn 0.3s ease-out;
+      }
+
+      /* Responsive */
+      @media (max-width: 1024px) {
+        .main-container {
+          flex-direction: column;
+        }
+
+        .left-sidebar,
+        .right-sidebar {
+          width: 100%;
+        }
+
+        .friends-grid {
+          grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        }
+      }
+
+      @media (max-width: 768px) {
+        .friends-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .tabs-list {
+          overflow-x: auto;
+          white-space: nowrap;
+          display: flex;
+          flex-wrap: nowrap;
+        }
+
+        .tab-item {
+          flex: 0 0 auto;
+        }
+
+        .tab-link {
+          padding: 12px 24px;
+        }
+
+        .logo {
+          height: 28px;
+        }
+
+        .friend-card {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .friend-actions {
+          justify-content: center;
+          width: 100%;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .header-content {
+          flex-wrap: wrap;
+          gap: 12px;
+        }
+
+        .search-container {
+          order: 3;
+          flex-basis: 100%;
+          max-width: none;
+        }
+
+        .friend-actions {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <!-- NUEVO: Logo impulsa+UTP -->
+        <div class="logo-container">
+          <img
+            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-CawNaA2EeAyiT6Ufy6YCOW6LObOPW0.png"
+            alt="impulsa+UTP"
+            class="logo"
+          />
+        </div>
+
+        <div class="search-container">
+          <svg class="search-icon icon-sm" viewBox="0 0 20 20">
+            <path
+              fill-rule="evenodd"
+              d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+          <input
+            type="text"
+            class="search-input"
+            placeholder="Buscar en impulsa+UPT..."
+          />
+        </div>
+
+        <div class="header-actions">
+          <!-- MODIFICADO: Icono de notificaciones con badge -->
+          <div class="icon-button">
+            <svg class="icon" viewBox="0 0 24 24">
+              <path
+                d="M12 2C13.1 2 14 2.9 14 4V5.08C16.39 5.57 18 7.47 18 10V16L20 18V19H4V18L6 16V10C6 7.47 7.61 5.57 10 5.08V4C10 2.9 10.9 2 12 2ZM10 21C10 22.1 10.9 23 12 23S14 22.1 14 21"
+              />
+            </svg>
+            <span class="notification-badge">3</span>
+          </div>
+
+          <!-- MODIFICADO: Icono de mensajes -->
+          <div class="icon-button">
+            <svg class="icon" viewBox="0 0 24 24">
+              <path
+                d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM6 9H18V11H6V9ZM14 14H6V12H14V14ZM18 8H6V6H18V8Z"
+              />
+            </svg>
+          </div>
+
+          <!-- MODIFICADO: Avatar con foto real -->
+          <div class="avatar">
+            <img src="img/user-perfil.png" alt="Brandon Inga" />
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+      <!-- Left Sidebar -->
+      <aside class="left-sidebar">
+        <nav class="nav-card">
+          <ul class="nav-list">
+            <li>
+              <a href="publicaciones.html" class="nav-item">
+                <!-- NUEVO: Icono de casa para Inicio -->
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                  <path d="M10 20V14H14V20H19V12H22L12 3L2 12H5V20H10Z" />
+                </svg>
+                <span>Inicio</span>
+              </a>
+            </li>
+            <li>
+              <a href="amigos.html" class="nav-item active">
+                <!-- NUEVO: Icono de personas para Amigos -->
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                  <path
+                    d="M16 4C18.2 4 20 5.8 20 8S18.2 12 16 12 12 10.2 12 8 13.8 4 16 4ZM8 4C10.2 4 12 5.8 12 8S10.2 12 8 12 4 10.2 4 8 5.8 4 8 4ZM8 14C5.8 14 1 15.1 1 17.3V20H15V17.3C15 15.1 10.2 14 8 14ZM16 14C15.7 14 15.4 14 15.1 14.1C16.2 14.8 17 15.9 17 17.3V20H23V17.3C23 15.1 18.2 14 16 14Z"
+                  />
+                </svg>
+                <span>Amigos</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-item">
+                <!-- NUEVO: Icono de páginas -->
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                  <path
+                    d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM5 19V5H19V19H5ZM7 7H17V9H7V7ZM7 11H17V13H7V11ZM7 15H14V17H7V15Z"
+                  />
+                </svg>
+                <span>Páginas</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-item">
+                <!-- NUEVO: Icono de campana para Notificaciones -->
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                  <path
+                    d="M12 2C13.1 2 14 2.9 14 4V5.08C16.39 5.57 18 7.47 18 10V16L20 18V19H4V18L6 16V10C6 7.47 7.61 5.57 10 5.08V4C10 2.9 10.9 2 12 2ZM10 21C10 22.1 10.9 23 12 23S14 22.1 14 21"
+                  />
+                </svg>
+                <span>Notificaciones</span>
+              </a>
+            </li>
+            <li>
+              <a href="chat.html" class="nav-item">
+                <!-- NUEVO: Icono de chat para Mensajes -->
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                  <path
+                    d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM6 9H18V11H6V9ZM14 14H6V12H14V14ZM18 8H6V6H18V8Z"
+                  />
+                </svg>
+                <span>Mensajes</span>
+              </a>
+            </li>
+            <li>
+              <a href="perfil.html" class="nav-item">
+                <!-- NUEVO: Icono de persona para Perfil -->
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                  <path
+                    d="M12 12C14.21 12 16 10.21 16 8S14.21 4 12 4 8 5.79 8 8 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z"
+                  />
+                </svg>
+                <span>Perfil</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+        <div class="profile-card">
+          <div class="profile-info">
+            <!-- MODIFICADO: Avatar con foto real -->
+            <div class="profile-avatar">
+              <img src="img/user-perfil.png" alt="Brandon Inga" />
+            </div>
+            <div>
+              <div class="profile-name">Brandon Inga</div>
+              <div class="profile-link">Ver perfil</div>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <!-- Friends Search -->
+        <div class="friends-search">
+          <input
+            type="text"
+            class="friends-search-input"
+            placeholder="Buscar amigos"
+            id="friendsSearch"
+          />
+        </div>
+
+        <!-- Friends Tabs -->
+        <div class="friends-tabs">
+          <ul class="tabs-list">
+            <li class="tab-item">
+              <a href="#" class="tab-link active" data-tab="all"
+                >Todos los amigos</a
+              >
+            </li>
+            <li class="tab-item">
+              <a href="#" class="tab-link" data-tab="requests">
+                Solicitudes
+                <span class="tab-notification-badge">3</span>
+              </a>
+            </li>
+            <li class="tab-item">
+              <a href="#" class="tab-link" data-tab="suggestions"
+                >Sugerencias</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <!-- Friends Grid -->
+        <div class="friends-grid" id="friendsGrid">
+          <!-- Friend Card 1 -->
+          <div class="friend-card" data-name="Roberto Sánchez">
+            <div class="friend-avatar online-status">
+              <img
+                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"
+                alt="Roberto Sánchez"
+              />
+              <div class="online-indicator"></div>
+            </div>
+            <div class="friend-info">
+              <div class="friend-name">Roberto Sánchez</div>
+              <div class="friend-meta">
+                Ingeniería de Sistemas • 7mo semestre
+              </div>
+              <div class="friend-actions">
+                <button class="btn btn-primary">
+                  <svg class="icon-sm" viewBox="0 0 24 24">
+                    <path
+                      d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z"
+                    />
+                  </svg>
+                  Mensaje
+                </button>
+                <button class="btn btn-secondary">Ver perfil</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Friend Card 2 -->
+          <div class="friend-card" data-name="Daniela Muñoz">
+            <div class="friend-avatar">
+              <img
+                src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face"
+                alt="Daniela Muñoz"
+              />
+            </div>
+            <div class="friend-info">
+              <div class="friend-name">Daniela Muñoz</div>
+              <div class="friend-meta">
+                Ingeniería Industrial • 5to semestre
+              </div>
+              <div class="friend-actions">
+                <button class="btn btn-primary">
+                  <svg class="icon-sm" viewBox="0 0 24 24">
+                    <path
+                      d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z"
+                    />
+                  </svg>
+                  Mensaje
+                </button>
+                <button class="btn btn-secondary">Ver perfil</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Friend Card 3 -->
+          <div class="friend-card" data-name="Javier López">
+            <div class="friend-avatar online-status">
+              <img
+                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face"
+                alt="Javier López"
+              />
+              <div class="online-indicator"></div>
+            </div>
+            <div class="friend-info">
+              <div class="friend-name">Javier López</div>
+              <div class="friend-meta">
+                Ingeniería Mecatrónica • 6to semestre
+              </div>
+              <div class="friend-actions">
+                <button class="btn btn-primary">
+                  <svg class="icon-sm" viewBox="0 0 24 24">
+                    <path
+                      d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z"
+                    />
+                  </svg>
+                  Mensaje
+                </button>
+                <button class="btn btn-secondary">Ver perfil</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Friend Card 4 -->
+          <div class="friend-card" data-name="Carmen Ortiz">
+            <div class="friend-avatar">
+              <img
+                src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face"
+                alt="Carmen Ortiz"
+              />
+            </div>
+            <div class="friend-info">
+              <div class="friend-name">Carmen Ortiz</div>
+              <div class="friend-meta">Gestión Empresarial • 8vo semestre</div>
+              <div class="friend-actions">
+                <button class="btn btn-primary">
+                  <svg class="icon-sm" viewBox="0 0 24 24">
+                    <path
+                      d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z"
+                    />
+                  </svg>
+                  Mensaje
+                </button>
+                <button class="btn btn-secondary">Ver perfil</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Friend Card 5 -->
+          <div class="friend-card" data-name="Miguel Vargas">
+            <div class="friend-avatar online-status">
+              <img
+                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face"
+                alt="Miguel Vargas"
+              />
+              <div class="online-indicator"></div>
+            </div>
+            <div class="friend-info">
+              <div class="friend-name">Miguel Vargas</div>
+              <div class="friend-meta">Energías Renovables • 4to semestre</div>
+              <div class="friend-actions">
+                <button class="btn btn-primary">
+                  <svg class="icon-sm" viewBox="0 0 24 24">
+                    <path
+                      d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z"
+                    />
+                  </svg>
+                  Mensaje
+                </button>
+                <button class="btn btn-secondary">Ver perfil</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Friend Card 6 -->
+          <div class="friend-card" data-name="Patricia Herrera">
+            <div class="friend-avatar">
+              <img
+                src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face"
+                alt="Patricia Herrera"
+              />
+            </div>
+            <div class="friend-info">
+              <div class="friend-name">Patricia Herrera</div>
+              <div class="friend-meta">Biotecnología • 3er semestre</div>
+              <div class="friend-actions">
+                <button class="btn btn-primary">
+                  <svg class="icon-sm" viewBox="0 0 24 24">
+                    <path
+                      d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z"
+                    />
+                  </svg>
+                  Mensaje
+                </button>
+                <button class="btn btn-secondary">Ver perfil</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- Right Sidebar -->
+      <aside class="right-sidebar">
+        <!-- Events Card -->
+        <div class="events-card">
+          <div class="events-header">
+            <svg class="events-icon icon" viewBox="0 0 24 24">
+              <path
+                d="M19 3H18V1H16V3H8V1H6V3H5C3.89 3 3 3.9 3 5V19C3 20.1 3.89 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM19 19H5V8H19V19ZM7 10H12V15H7V10Z"
+              />
+            </svg>
+            <h2 class="events-title">Eventos</h2>
+          </div>
+
+          <div class="events-list">
+            <div class="event-item">
+              <div class="event-dot"></div>
+              <div>
+                <div class="event-title">Taller de Desarrollo Web</div>
+                <div class="event-time">Mañana, 15:00</div>
+              </div>
+            </div>
+
+            <div class="event-item">
+              <div class="event-dot"></div>
+              <div>
+                <div class="event-title">Seminario de Innovación UPT</div>
+                <div class="event-time">Viernes, 10:00</div>
+              </div>
+            </div>
+
+            <div class="event-item">
+              <div class="event-dot"></div>
+              <div>
+                <div class="event-title">Hackathon impulsa+UPT</div>
+                <div class="event-time">Próximo Sábado</div>
+              </div>
+            </div>
+          </div>
+
+          <a href="#" class="view-all-events">Ver todos los eventos</a>
+        </div>
+
+        <!-- Contacts Card -->
+        <div class="contacts-card">
+          <div class="contacts-header">
+            <svg class="icon" viewBox="0 0 24 24">
+              <path
+                d="M16 4C18.2 4 20 5.8 20 8S18.2 12 16 12 12 10.2 12 8 13.8 4 16 4ZM8 4C10.2 4 12 5.8 12 8S10.2 12 8 12 4 10.2 4 8 5.8 4 8 4ZM8 14C5.8 14 1 15.1 1 17.3V20H15V17.3C15 15.1 10.2 14 8 14ZM16 14C15.7 14 15.4 14 15.1 14.1C16.2 14.8 17 15.9 17 17.3V20H23V17.3C23 15.1 18.2 14 16 14Z"
+              />
+            </svg>
+            <h2 class="contacts-title">Contactos</h2>
+          </div>
+
+          <div class="contacts-list">
+            <div class="contact-item">
+              <div class="contact-avatar online-status">
+                <img
+                  src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face"
+                  alt="Ana García"
+                />
+                <div class="online-indicator"></div>
+              </div>
+              <div class="contact-name">Ana García</div>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-avatar">
+                <img
+                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"
+                  alt="Carlos Ruiz"
+                />
+              </div>
+              <div class="contact-name">Carlos Ruiz</div>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-avatar online-status">
+                <img
+                  src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face"
+                  alt="Laura Torres"
+                />
+                <div class="online-indicator"></div>
+              </div>
+              <div class="contact-name">Laura Torres</div>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-avatar">
+                <img
+                  src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face"
+                  alt="Pedro Morales"
+                />
+              </div>
+              <div class="contact-name">Pedro Morales</div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <script>
+      // Referencias a elementos del DOM
+      const friendsSearch = document.getElementById("friendsSearch");
+      const friendsGrid = document.getElementById("friendsGrid");
+      const tabLinks = document.querySelectorAll(".tab-link");
+      const friendCards = document.querySelectorAll(".friend-card");
+
+      // Función de búsqueda de amigos
+      friendsSearch.addEventListener("input", function () {
+        const searchTerm = this.value.toLowerCase();
+
+        friendCards.forEach((card) => {
+          const friendName = card.getAttribute("data-name").toLowerCase();
+          const friendMeta = card
+            .querySelector(".friend-meta")
+            .textContent.toLowerCase();
+
+          if (
+            friendName.includes(searchTerm) ||
+            friendMeta.includes(searchTerm)
+          ) {
+            card.style.display = "flex";
+          } else {
+            card.style.display = "none";
+          }
+        });
+      });
+
+      // Funcionalidad de tabs
+      tabLinks.forEach((tab) => {
+        tab.addEventListener("click", function (e) {
+          e.preventDefault();
+
+          // Remover clase active de todos los tabs
+          tabLinks.forEach((t) => t.classList.remove("active"));
+
+          // Agregar clase active al tab clickeado
+          this.classList.add("active");
+
+          const tabType = this.getAttribute("data-tab");
+
+          // Simular cambio de contenido según el tab
+          if (tabType === "requests") {
+            showFriendRequests();
+          } else if (tabType === "suggestions") {
+            showFriendSuggestions();
+          } else {
+            showAllFriends();
+          }
+        });
+      });
+
+      // Función para mostrar solicitudes de amistad
+      function showFriendRequests() {
+        friendsGrid.innerHTML = `
+                <div class="friend-card">
+                    <div class="friend-avatar">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face" alt="Nuevo Usuario">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Carlos Mendoza</div>
+                        <div class="friend-meta">Quiere ser tu amigo</div>
+                        <div class="friend-actions">
+                            <button class="btn btn-primary">Aceptar</button>
+                            <button class="btn btn-secondary">Rechazar</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="friend-card">
+                    <div class="friend-avatar">
+                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face" alt="Nueva Usuario">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">María Fernández</div>
+                        <div class="friend-meta">Quiere ser tu amiga</div>
+                        <div class="friend-actions">
+                            <button class="btn btn-primary">Aceptar</button>
+                            <button class="btn btn-secondary">Rechazar</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+      }
+
+      // Función para mostrar sugerencias de amigos
+      function showFriendSuggestions() {
+        friendsGrid.innerHTML = `
+                <div class="friend-card">
+                    <div class="friend-avatar">
+                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face" alt="Sugerencia">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Diego Ramírez</div>
+                        <div class="friend-meta">5 amigos en común</div>
+                        <div class="friend-actions">
+                            <button class="btn btn-primary">Agregar</button>
+                            <button class="btn btn-secondary">Ver perfil</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="friend-card">
+                    <div class="friend-avatar">
+                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face" alt="Sugerencia">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Sofía Castillo</div>
+                        <div class="friend-meta">3 amigos en común</div>
+                        <div class="friend-actions">
+                            <button class="btn btn-primary">Agregar</button>
+                            <button class="btn btn-secondary">Ver perfil</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+      }
+
+      // Función para mostrar todos los amigos (contenido original)
+      function showAllFriends() {
+        location.reload(); // Recargar para mostrar el contenido original
+      }
+
+      // Event listeners para botones de amigos
+      document.addEventListener("click", function (e) {
+        if (e.target.classList.contains("btn-primary")) {
+          const friendName = e.target
+            .closest(".friend-card")
+            .querySelector(".friend-name").textContent;
+
+          if (e.target.textContent.includes("Mensaje")) {
+            console.log(`Enviando mensaje a ${friendName}`);
+            // Aquí puedes redirigir al chat
+          } else if (e.target.textContent.includes("Aceptar")) {
+            console.log(`Solicitud de ${friendName} aceptada`);
+            e.target.closest(".friend-card").remove();
+          } else if (e.target.textContent.includes("Agregar")) {
+            console.log(`Solicitud enviada a ${friendName}`);
+            e.target.textContent = "Enviado";
+            e.target.disabled = true;
+          }
+        }
+
+        if (e.target.classList.contains("btn-secondary")) {
+          const friendName = e.target
+            .closest(".friend-card")
+            .querySelector(".friend-name").textContent;
+
+          if (e.target.textContent.includes("Ver perfil")) {
+            console.log(`Viendo perfil de ${friendName}`);
+            // Aquí puedes redirigir al perfil
+          } else if (e.target.textContent.includes("Rechazar")) {
+            console.log(`Solicitud de ${friendName} rechazada`);
+            e.target.closest(".friend-card").remove();
+          }
+        }
+      });
+
+      // Funcionalidad para contactos
+      document.querySelectorAll(".contact-item").forEach((contact) => {
+        contact.addEventListener("click", function () {
+          const contactName = this.querySelector(".contact-name").textContent;
+          console.log(`Iniciando chat con ${contactName}`);
+          // Aquí puedes redirigir al chat
+        });
+      });
+
+      // Funcionalidad para eventos
+      document.querySelectorAll(".event-item").forEach((event) => {
+        event.addEventListener("click", function () {
+          const eventTitle = this.querySelector(".event-title").textContent;
+          console.log(`Viendo evento: ${eventTitle}`);
+          // Aquí puedes mostrar detalles del evento
+        });
+      });
+    </script>
+  </body>
+</html>
