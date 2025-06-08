@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Brandon Inga - Perfil | impulsa+UPT</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        background-color: #f9fafb;
+        color: #374151;
+      }
+
+      /* Header */
+      .header {
+        background: white;
+        border-bottom: 1px solid #e5e7eb;
+        padding: 12px 16px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      .header-content {
+        max-width: 1280px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      /* NUEVO: Logo impulsa+UTP */
+      .logo-container {
+        display: flex;
+        align-items: center;
+        margin-right: 24px;
+      }
+
+      .logo {
+        height: 32px;
+        width: auto;
+      }
+
+      .search-container {
+        flex: 1;
+        max-width: 384px;
+        position: relative;
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 8px 12px 8px 40px;
+        background: #f3f4f6;
+        border: none;
+        border-radius: 8px;
+        font-size: 14px;
+      }
+
+      .search-icon {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #9ca3af;
+      }
+
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .icon-button {
+        color: #6b7280;
+        cursor: pointer;
+        padding: 8px;
+        border-radius: 8px;
+        transition: all 0.2s;
+        position: relative;
+      }
+
+      .icon-button:hover {
+        background: #f3f4f6;
+      }
+
+      /* NUEVO: Badge de notificaciones */
+      .notification-badge {
+        position: absolute;
+        top: 4px;
+        right: 4px;
+        background: #dc2626;
+        color: white;
+        border-radius: 50%;
+        width: 16px;
+        height: 16px;
+        font-size: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+      }
+
+      /* MODIFICADO: Avatar con foto real */
+      .avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        overflow: hidden;
+        cursor: pointer;
+        border: 2px solid #e5e7eb;
+        transition: border-color 0.2s;
+      }
+
+      .avatar:hover {
+        border-color: #dc2626;
+      }
+
+      .avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      /* Main Layout */
+      .main-container {
+        max-width: 1280px;
+        margin: 0 auto;
+        display: flex;
+        gap: 24px;
+        padding: 16px;
+      }
+
+      /* Left Sidebar */
+      .left-sidebar {
+        width: 256px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .nav-card {
+        background: white;
+        border-radius: 8px;
+        padding: 16px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      .nav-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 8px 12px;
+        border-radius: 8px;
+        text-decoration: none;
+        color: #374151;
+        transition: all 0.2s;
+      }
+
+      .nav-item:hover {
+        background: #f9fafb;
+      }
+
+      .nav-item.active {
+        background: #fef2f2;
+        color: #dc2626;
+        font-weight: 500;
+      }
+
+      /* NUEVO: Iconos específicos para navegación */
+      .nav-icon {
+        width: 20px;
+        height: 20px;
+        fill: currentColor;
+      }
+
+      .profile-card {
+        background: white;
+        border-radius: 8px;
+        padding: 16px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      .profile-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        cursor: pointer;
+        padding: 8px;
+        border-radius: 8px;
+        transition: background-color 0.2s;
+      }
+
+      .profile-info:hover {
+        background: #f9fafb;
+      }
+
+      /* MODIFICADO: Avatar del perfil con foto real */
+      .profile-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 2px solid #e5e7eb;
+      }
+
+      .profile-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .profile-name {
+        font-weight: 500;
+        color: #111827;
+      }
+
+      .profile-link {
+        font-size: 14px;
+        color: #6b7280;
+      }
+
+      /* Main Content */
+      .main-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+
+      /* Profile Header - CORREGIDO */
+      .profile-header {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        position: relative;
+      }
+
+      .profile-cover {
+        height: 200px;
+        background: linear-gradient(135deg, #dc2626, #b91c1c);
+        position: relative;
+        width: 100%;
+      }
+
+      .profile-cover-photo {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .camera-icon {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        background: rgba(255, 255, 255, 0.8);
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 2;
+        transition: all 0.2s;
+      }
+
+      .camera-icon:hover {
+        background: rgba(255, 255, 255, 0.9);
+        transform: scale(1.05);
+      }
+
+      /* CORREGIDO: Posicionamiento de la foto de perfil */
+      .profile-photo-container {
+        position: absolute;
+        bottom: -60px;
+        left: 32px;
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        border: 4px solid white;
+        background: white;
+        overflow: hidden;
+        z-index: 3;
+        cursor: pointer;
+        transition: transform 0.2s;
+      }
+
+      .profile-photo-container:hover {
+        transform: scale(1.02);
+      }
+
+      .profile-photo {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      /* CORREGIDO: Ajuste del padding para acomodar la foto */
+      .profile-details {
+        padding: 80px 32px 24px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .profile-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 24px;
+      }
+
+      .profile-title h1 {
+        font-size: 24px;
+        font-weight: 600;
+        color: #111827;
+        margin-bottom: 4px;
+      }
+
+      .profile-subtitle {
+        color: #6b7280;
+        font-size: 16px;
+      }
+
+      .edit-profile-btn {
+        background: #dc2626;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-weight: 500;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.2s;
+      }
+
+      .edit-profile-btn:hover {
+        background: #b91c1c;
+        transform: translateY(-1px);
+      }
+
+      .profile-meta {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+
+      .meta-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #4b5563;
+        padding: 8px;
+        border-radius: 6px;
+        transition: background-color 0.2s;
+      }
+
+      .meta-item:hover {
+        background: #f9fafb;
+      }
+
+      /* Friends Section */
+      .friends-section {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        padding: 16px;
+      }
+
+      .friends-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+      }
+
+      .friends-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #111827;
+        font-weight: 500;
+      }
+
+      .view-all {
+        color: #dc2626;
+        text-decoration: none;
+        font-weight: 500;
+        padding: 4px 8px;
+        border-radius: 4px;
+        transition: all 0.2s;
+      }
+
+      .view-all:hover {
+        background: #fef2f2;
+        text-decoration: underline;
+      }
+
+      /* NUEVO: Grid de amigos */
+      .friends-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+        gap: 12px;
+      }
+
+      .friend-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        cursor: pointer;
+        padding: 8px;
+        border-radius: 8px;
+        transition: background-color 0.2s;
+      }
+
+      .friend-item:hover {
+        background: #f9fafb;
+      }
+
+      .friend-avatar {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 2px solid #e5e7eb;
+        margin-bottom: 8px;
+      }
+
+      .friend-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .friend-name {
+        font-size: 12px;
+        color: #374151;
+        font-weight: 500;
+      }
+
+      /* Tabs */
+      .profile-tabs {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        margin-bottom: 16px;
+      }
+
+      .tabs-list {
+        display: flex;
+        list-style: none;
+        border-bottom: 1px solid #e5e7eb;
+      }
+
+      .tab-item {
+        flex: 1;
+        text-align: center;
+      }
+
+      .tab-link {
+        display: block;
+        padding: 16px;
+        color: #6b7280;
+        text-decoration: none;
+        font-weight: 500;
+        border-bottom: 2px solid transparent;
+        transition: all 0.2s;
+      }
+
+      .tab-link.active {
+        color: #dc2626;
+        border-bottom-color: #dc2626;
+      }
+
+      .tab-link:hover:not(.active) {
+        background: #f9fafb;
+      }
+
+      /* Create Post */
+      .create-post {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        padding: 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .post-input {
+        flex: 1;
+        padding: 12px;
+        border: 1px solid #e5e7eb;
+        border-radius: 24px;
+        background: #f9fafb;
+        font-size: 14px;
+        transition: all 0.2s;
+      }
+
+      .post-input:focus {
+        outline: none;
+        border-color: #dc2626;
+        background: white;
+      }
+
+      /* Post */
+      .post {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        margin-bottom: 16px;
+        transition: box-shadow 0.2s;
+      }
+
+      .post:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      .post-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 16px;
+      }
+
+      .post-user-info {
+        flex: 1;
+      }
+
+      .post-user-name {
+        font-weight: 600;
+        color: #111827;
+      }
+
+      .post-time {
+        font-size: 14px;
+        color: #6b7280;
+      }
+
+      .post-content {
+        padding: 0 16px 16px;
+        color: #374151;
+        line-height: 1.5;
+      }
+
+      .post-image {
+        width: 100%;
+        max-height: 400px;
+        object-fit: cover;
+      }
+
+      .post-actions {
+        display: flex;
+        border-top: 1px solid #e5e7eb;
+        padding: 8px 16px;
+      }
+
+      .post-action {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 8px;
+        color: #6b7280;
+        font-weight: 500;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: all 0.2s;
+      }
+
+      .post-action:hover {
+        background: #f3f4f6;
+      }
+
+      .post-action.liked {
+        color: #dc2626;
+      }
+
+      /* Icons */
+      .icon {
+        width: 20px;
+        height: 20px;
+        fill: currentColor;
+      }
+
+      .icon-sm {
+        width: 16px;
+        height: 16px;
+        fill: currentColor;
+      }
+
+      /* NUEVO: Animaciones */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .post {
+        animation: fadeIn 0.3s ease-out;
+      }
+
+      /* Responsive */
+      @media (max-width: 1024px) {
+        .main-container {
+          flex-direction: column;
+        }
+
+        .left-sidebar {
+          width: 100%;
+          margin-bottom: 16px;
+        }
+
+        .profile-meta {
+          grid-template-columns: 1fr;
+        }
+
+        .friends-grid {
+          grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+        }
+      }
+
+      @media (max-width: 768px) {
+        .profile-cover {
+          height: 150px;
+        }
+
+        .profile-photo-container {
+          width: 100px;
+          height: 100px;
+          bottom: -50px;
+          left: 16px;
+        }
+
+        .profile-details {
+          padding: 60px 16px 16px;
+        }
+
+        .tabs-list {
+          overflow-x: auto;
+          white-space: nowrap;
+          display: flex;
+          flex-wrap: nowrap;
+        }
+
+        .tab-item {
+          flex: 0 0 auto;
+        }
+
+        .tab-link {
+          padding: 12px 16px;
+        }
+
+        .logo {
+          height: 28px;
+        }
+
+        .friends-grid {
+          grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+        }
+
+        .friend-avatar {
+          width: 50px;
+          height: 50px;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .header-content {
+          flex-wrap: wrap;
+          gap: 12px;
+        }
+
+        .search-container {
+          order: 3;
+          flex-basis: 100%;
+          max-width: none;
+        }
+
+        .profile-actions {
+          flex-direction: column;
+          gap: 16px;
+        }
+
+        .edit-profile-btn {
+          width: 100%;
+          justify-content: center;
+        }
+
+        .post-header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .profile-actions {
+          flex-direction: column;
+          gap: 16px;
+        }
+
+        .edit-profile-btn {
+          width: 100%;
+          justify-content: center;
+        }
+
+        .post-header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <!-- NUEVO: Logo impulsa+UTP -->
+        <div class="logo-container">
+          <img
+            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-CawNaA2EeAyiT6Ufy6YCOW6LObOPW0.png"
+            alt="impulsa+UTP"
+            class="logo"
+          />
+        </div>
+
+        <div class="search-container">
+          <svg class="search-icon icon-sm" viewBox="0 0 20 20">
+            <path
+              fill-rule="evenodd"
+              d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+          <input
+            type="text"
+            class="search-input"
+            placeholder="Buscar en impulsa+UPT..."
+          />
+        </div>
+
+        <div class="header-actions">
+          <!-- MODIFICADO: Icono de notificaciones con badge -->
+          <div class="icon-button">
+            <svg class="icon" viewBox="0 0 24 24">
+              <path
+                d="M12 2C13.1 2 14 2.9 14 4V5.08C16.39 5.57 18 7.47 18 10V16L20 18V19H4V18L6 16V10C6 7.47 7.61 5.57 10 5.08V4C10 2.9 10.9 2 12 2ZM10 21C10 22.1 10.9 23 12 23S14 22.1 14 21"
+              />
+            </svg>
+            <span class="notification-badge">2</span>
+          </div>
+
+          <!-- MODIFICADO: Icono de mensajes -->
+          <div class="icon-button">
+            <svg class="icon" viewBox="0 0 24 24">
+              <path
+                d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM6 9H18V11H6V9ZM14 14H6V12H14V14ZM18 8H6V6H18V8Z"
+              />
+            </svg>
+          </div>
+
+          <!-- MODIFICADO: Avatar con foto real -->
+          <div class="avatar">
+            <img src="img/user-perfil.png" alt="Brandon Inga" />
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+      <!-- Left Sidebar -->
+      <aside class="left-sidebar">
+        <nav class="nav-card">
+          <ul class="nav-list">
+            <li>
+              <a href="publicaciones.html" class="nav-item">
+                <!-- NUEVO: Icono de casa para Inicio -->
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                  <path d="M10 20V14H14V20H19V12H22L12 3L2 12H5V20H10Z" />
+                </svg>
+                <span>Inicio</span>
+              </a>
+            </li>
+            <li>
+              <a href="amigos.html" class="nav-item">
+                <!-- NUEVO: Icono de personas para Amigos -->
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                  <path
+                    d="M16 4C18.2 4 20 5.8 20 8S18.2 12 16 12 12 10.2 12 8 13.8 4 16 4ZM8 4C10.2 4 12 5.8 12 8S10.2 12 8 12 4 10.2 4 8 5.8 4 8 4ZM8 14C5.8 14 1 15.1 1 17.3V20H15V17.3C15 15.1 10.2 14 8 14ZM16 14C15.7 14 15.4 14 15.1 14.1C16.2 14.8 17 15.9 17 17.3V20H23V17.3C23 15.1 18.2 14 16 14Z"
+                  />
+                </svg>
+                <span>Amigos</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-item">
+                <!-- NUEVO: Icono de páginas -->
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                  <path
+                    d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM5 19V5H19V19H5ZM7 7H17V9H7V7ZM7 11H17V13H7V11ZM7 15H14V17H7V15Z"
+                  />
+                </svg>
+                <span>Páginas</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-item">
+                <!-- NUEVO: Icono de campana para Notificaciones -->
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                  <path
+                    d="M12 2C13.1 2 14 2.9 14 4V5.08C16.39 5.57 18 7.47 18 10V16L20 18V19H4V18L6 16V10C6 7.47 7.61 5.57 10 5.08V4C10 2.9 10.9 2 12 2ZM10 21C10 22.1 10.9 23 12 23S14 22.1 14 21"
+                  />
+                </svg>
+                <span>Notificaciones</span>
+              </a>
+            </li>
+            <li>
+              <a href="chat.html" class="nav-item">
+                <!-- NUEVO: Icono de chat para Mensajes -->
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                  <path
+                    d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM6 9H18V11H6V9ZM14 14H6V12H14V14ZM18 8H6V6H18V8Z"
+                  />
+                </svg>
+                <span>Mensajes</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-item active">
+                <!-- NUEVO: Icono de persona para Perfil -->
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                  <path
+                    d="M12 12C14.21 12 16 10.21 16 8S14.21 4 12 4 8 5.79 8 8 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z"
+                  />
+                </svg>
+                <span>Perfil</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+        <div class="profile-card">
+          <div class="profile-info">
+            <!-- MODIFICADO: Avatar con foto real -->
+            <div class="profile-avatar">
+              <img src="img/user-perfil.png" alt="Brandon Inga" />
+            </div>
+            <div>
+              <div class="profile-name">Brandon Inga</div>
+              <div class="profile-link">Ver perfil</div>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <!-- Profile Header -->
+        <section class="profile-header">
+          <div class="profile-cover">
+            <img
+              src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&h=200&fit=crop"
+              alt="Portada"
+              class="profile-cover-photo"
+            />
+            <div class="camera-icon">
+              <svg class="icon" viewBox="0 0 20 20">
+                <path
+                  fill-rule="evenodd"
+                  d="M4 5a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-1.586a1 1 0 01-.707-.293l-1.121-1.121A2 2 0 0011.172 3H8.828a2 2 0 00-1.414.586L6.293 4.707A1 1 0 015.586 5H4zm6 9a3 3 0 100-6 3 3 0 000 6z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+            </div>
+            <!-- Foto de perfil posicionada correctamente -->
+            <div class="profile-photo-container">
+              <img
+                src="img/user-perfil.png"
+                alt="Brandon Inga"
+                class="profile-photo"
+              />
+            </div>
+          </div>
+
+          <div class="profile-details">
+            <div class="profile-actions">
+              <div class="profile-title">
+                <h1>Brandon Inga</h1>
+                <p class="profile-subtitle">
+                  Estudiante de Ingeniería en Sistemas e Informática
+                </p>
+              </div>
+              <button class="edit-profile-btn">
+                <svg class="icon-sm" viewBox="0 0 20 20">
+                  <path
+                    d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"
+                  ></path>
+                </svg>
+                Editar perfil
+              </button>
+            </div>
+            <div class="profile-meta">
+              <div class="meta-item">
+                <svg class="icon" viewBox="0 0 20 20">
+                  <path
+                    fill-rule="evenodd"
+                    d="M10.496 2.132a1 1 0 00-.992 0l-7 4A1 1 0 003 8v7a1 1 0 100 2h14a1 1 0 100-2V8a1 1 0 00.496-1.868l-7-4zM6 9a1 1 0 00-1 1v3a1 1 0 102 0v-3a1 1 0 00-1-1zm3 1a1 1 0 012 0v3a1 1 0 11-2 0v-3zm5-1a1 1 0 00-1 1v3a1 1 0 102 0v-3a1 1 0 00-1-1z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+                Estudia en Universidad Privada de Tacna
+              </div>
+              <div class="meta-item">
+                <svg class="icon" viewBox="0 0 20 20">
+                  <path
+                    fill-rule="evenodd"
+                    d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z"
+                    clip-rule="evenodd"
+                  ></path>
+                  <path
+                    d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"
+                  ></path>
+                </svg>
+                Practicante en Tech Solutions
+              </div>
+              <div class="meta-item">
+                <svg class="icon" viewBox="0 0 20 20">
+                  <path
+                    fill-rule="evenodd"
+                    d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+                Vive en Tacna, Perú
+              </div>
+              <div class="meta-item">
+                <svg class="icon" viewBox="0 0 20 20">
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+                7mo semestre
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Friends Section -->
+        <section class="friends-section">
+          <div class="friends-header">
+            <div class="friends-title">
+              <svg class="icon" viewBox="0 0 20 20">
+                <path
+                  d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"
+                ></path>
+              </svg>
+              328 amigos
+            </div>
+            <a href="amigos.html" class="view-all">Ver todos</a>
+          </div>
+
+          <!-- NUEVO: Grid de amigos con fotos reales -->
+          <div class="friends-grid">
+            <div class="friend-item">
+              <div class="friend-avatar">
+                <img
+                  src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face"
+                  alt="María López"
+                />
+              </div>
+              <div class="friend-name">María López</div>
+            </div>
+            <div class="friend-item">
+              <div class="friend-avatar">
+                <img
+                  src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face"
+                  alt="Carlos Ruiz"
+                />
+              </div>
+              <div class="friend-name">Carlos Ruiz</div>
+            </div>
+            <div class="friend-item">
+              <div class="friend-avatar">
+                <img
+                  src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face"
+                  alt="Ana García"
+                />
+              </div>
+              <div class="friend-name">Ana García</div>
+            </div>
+            <div class="friend-item">
+              <div class="friend-avatar">
+                <img
+                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face"
+                  alt="Roberto Díaz"
+                />
+              </div>
+              <div class="friend-name">Roberto Díaz</div>
+            </div>
+            <div class="friend-item">
+              <div class="friend-avatar">
+                <img
+                  src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face"
+                  alt="Laura Vega"
+                />
+              </div>
+              <div class="friend-name">Laura Vega</div>
+            </div>
+            <div class="friend-item">
+              <div class="friend-avatar">
+                <img
+                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"
+                  alt="Diego Morales"
+                />
+              </div>
+              <div class="friend-name">Diego Morales</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Profile Tabs -->
+        <div class="profile-tabs">
+          <ul class="tabs-list">
+            <li class="tab-item">
+              <a href="#" class="tab-link active" data-tab="posts"
+                >Publicaciones</a
+              >
+            </li>
+            <li class="tab-item">
+              <a href="#" class="tab-link" data-tab="info">Información</a>
+            </li>
+            <li class="tab-item">
+              <a href="amigos.html" class="tab-link" data-tab="friends"
+                >Amigos</a
+              >
+            </li>
+            <li class="tab-item">
+              <a href="#" class="tab-link" data-tab="photos">Fotos</a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Create Post -->
+        <div class="create-post">
+          <div class="avatar">
+            <img src="img/user-perfil.png" alt="Brandon Inga" />
+          </div>
+          <input
+            type="text"
+            class="post-input"
+            placeholder="¿Qué estás pensando, Brandon?"
+            id="postInput"
+          />
+        </div>
+
+        <!-- Posts -->
+        <article class="post">
+          <div class="post-header">
+            <div class="avatar">
+              <img src="img/user-perfil.png" alt="Brandon Inga" />
+            </div>
+            <div class="post-user-info">
+              <div class="post-user-name">Brandon Inga</div>
+              <div class="post-time">2 horas</div>
+            </div>
+          </div>
+          <div class="post-content">
+            ¡Acabo de terminar mi proyecto final para Desarrollo Web Avanzado!
+            Fue un reto increíble trabajar con React y Node.js. Agradecido con
+            mis compañeros de equipo y profesores por todo el apoyo. 🚀
+            #ProyectoFinal #DesarrolloWeb #UPT
+          </div>
+          <img
+            src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&h=400&fit=crop"
+            alt="Proyecto de desarrollo web"
+            class="post-image"
+          />
+          <div class="post-actions">
+            <div class="post-action liked" onclick="toggleLike(this)">
+              <svg class="icon-sm" viewBox="0 0 20 20">
+                <path
+                  d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"
+                ></path>
+              </svg>
+              <span>24</span>
+            </div>
+            <div class="post-action" onclick="showComments()">
+              <svg class="icon-sm" viewBox="0 0 20 20">
+                <path
+                  fill-rule="evenodd"
+                  d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+              Comentar
+            </div>
+            <div class="post-action" onclick="sharePost()">
+              <svg class="icon-sm" viewBox="0 0 20 20">
+                <path
+                  d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z"
+                ></path>
+              </svg>
+              Compartir
+            </div>
+          </div>
+        </article>
+
+        <!-- Segundo Post -->
+        <article class="post">
+          <div class="post-header">
+            <div class="avatar">
+              <img src="img/user-perfil.png" alt="Brandon Inga" />
+            </div>
+            <div class="post-user-info">
+              <div class="post-user-name">Brandon Inga</div>
+              <div class="post-time">1 día</div>
+            </div>
+          </div>
+          <div class="post-content">
+            Participando en el Hackathon impulsa+UPT 2024. Increíble la energía
+            y creatividad de todos los equipos. Nuestro proyecto se enfoca en
+            soluciones sostenibles para la comunidad universitaria. ¡Vamos por
+            todo! 💪 #HackathonUPT #Innovación #Tecnología
+          </div>
+          <div class="post-actions">
+            <div class="post-action" onclick="toggleLike(this)">
+              <svg class="icon-sm" viewBox="0 0 20 20">
+                <path
+                  d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"
+                ></path>
+              </svg>
+              <span>18</span>
+            </div>
+            <div class="post-action" onclick="showComments()">
+              <svg class="icon-sm" viewBox="0 0 20 20">
+                <path
+                  fill-rule="evenodd"
+                  d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+              Comentar
+            </div>
+            <div class="post-action" onclick="sharePost()">
+              <svg class="icon-sm" viewBox="0 0 20 20">
+                <path
+                  d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z"
+                ></path>
+              </svg>
+              Compartir
+            </div>
+          </div>
+        </article>
+      </main>
+    </div>
+
+    <script>
+      // Funcionalidad para tabs
+      document.querySelectorAll(".tab-link").forEach((tab) => {
+        tab.addEventListener("click", function (e) {
+          e.preventDefault();
+
+          // Remover clase active de todos los tabs
+          document
+            .querySelectorAll(".tab-link")
+            .forEach((t) => t.classList.remove("active"));
+
+          // Agregar clase active al tab clickeado
+          this.classList.add("active");
+
+          const tabType = this.getAttribute("data-tab");
+          console.log(`Cambiando a tab: ${tabType}`);
+
+          // Aquí puedes agregar lógica para mostrar contenido específico
+        });
+      });
+
+      // Funcionalidad para el input de post
+      document
+        .getElementById("postInput")
+        .addEventListener("click", function () {
+          console.log("Abriendo modal de crear post");
+          // Aquí puedes agregar lógica para abrir un modal de creación de post
+        });
+
+      // Funcionalidad para like
+      function toggleLike(element) {
+        element.classList.toggle("liked");
+        const countSpan = element.querySelector("span");
+        if (countSpan) {
+          let count = parseInt(countSpan.textContent);
+          if (element.classList.contains("liked")) {
+            count++;
+          } else {
+            count--;
+          }
+          countSpan.textContent = count;
+        }
+      }
+
+      // Funcionalidad para comentarios
+      function showComments() {
+        console.log("Mostrando comentarios");
+        // Aquí puedes agregar lógica para mostrar comentarios
+      }
+
+      // Funcionalidad para compartir
+      function sharePost() {
+        console.log("Compartiendo post");
+        // Aquí puedes agregar lógica para compartir
+      }
+
+      // Funcionalidad para editar perfil
+      document
+        .querySelector(".edit-profile-btn")
+        .addEventListener("click", function () {
+          console.log("Editando perfil");
+          // Aquí puedes agregar lógica para editar perfil
+        });
+
+      // Funcionalidad para cambiar foto de portada
+      document
+        .querySelector(".camera-icon")
+        .addEventListener("click", function () {
+          console.log("Cambiando foto de portada");
+          // Aquí puedes agregar lógica para cambiar la foto de portada
+        });
+
+      // Funcionalidad para cambiar foto de perfil
+      document
+        .querySelector(".profile-photo-container")
+        .addEventListener("click", function () {
+          console.log("Cambiando foto de perfil");
+          // Aquí puedes agregar lógica para cambiar la foto de perfil
+        });
+
+      // Funcionalidad para amigos
+      document.querySelectorAll(".friend-item").forEach((friend) => {
+        friend.addEventListener("click", function () {
+          const friendName = this.querySelector(".friend-name").textContent;
+          console.log(`Viendo perfil de ${friendName}`);
+          // Aquí puedes redirigir al perfil del amigo
+        });
+      });
+
+      // Funcionalidad para meta items
+      document.querySelectorAll(".meta-item").forEach((item) => {
+        item.addEventListener("click", function () {
+          console.log("Mostrando más información");
+          // Aquí puedes mostrar más detalles
+        });
+      });
+
+      // Funcionalidad para navegación
+      document.querySelectorAll(".nav-item").forEach((navItem) => {
+        navItem.addEventListener("click", function (e) {
+          if (this.getAttribute("href") === "#") {
+            e.preventDefault();
+            console.log(`Navegando a: ${this.textContent.trim()}`);
+          }
+        });
+      });
+
+      // Funcionalidad para búsqueda
+      document
+        .querySelector(".search-input")
+        .addEventListener("input", function () {
+          const searchTerm = this.value;
+          if (searchTerm.length > 2) {
+            console.log(`Buscando: ${searchTerm}`);
+            // Aquí puedes agregar lógica de búsqueda
+          }
+        });
+
+      // Animación de scroll suave
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            target.scrollIntoView({
+              behavior: "smooth",
+            });
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
