@@ -35,7 +35,7 @@ def registro_estudiante(request):
         apellido = request.POST.get('apellido')
         email = request.POST.get('email')
         password = request.POST.get('password')
-        password2 = request.POST.get('password2')
+        password2 = request.POST.get('confirmPassword')
         carrera = request.POST.get('carrera')
         telefono = request.POST.get('telefono')
         fecha_nacimiento = request.POST.get('fecha_nacimiento')
@@ -50,15 +50,15 @@ def registro_estudiante(request):
         dominio = '@utp.edu.pe'
         if not email.endswith(dominio):
             error = f"El correo electrónico debe tener el dominio {dominio}."
-            return render(request, 'Usuarios/registro_estudiante.html', {'error': error})
+            return render(request, 'usuarios/regitro_alumno.html', {'error': error})
 
         if password != password2:
             error = "Las contraseñas no coinciden."
-            return render(request, 'Usuarios/registro_estudiante.html', {'error': error})
+            return render(request, 'Usuarios/regitro_alumno.html', {'error': error})
         
         if UsuarioPersonalizado.objects.filter(email=email).exists():
             error = "El correo electrónico ya está en uso."
-            return render(request, 'Usuarios/registro_estudiante.html', {'error': error})
+            return render(request, 'Usuarios/regitro_alumno.html', {'error': error})
         
         usuarioCreado = UsuarioPersonalizado.objects.create_user(
             username=username,
@@ -91,9 +91,9 @@ def registro_estudiante(request):
 
         enviar_correo_verificacion(usuarioCreado, token.token)
 
-        return render(request, 'Usuarios/correo_enviado.html', {'email': email}) 
+        return render(request, 'usuarios/registro-espera.html', {'email': email}) 
     else:
-        return render(request, 'Usuarios/registro_estudiante.html')
+        return render(request, 'usuarios/regitro_alumno.html')
 
 def registro_profesor(request):
     if request.method == 'POST':
@@ -101,7 +101,7 @@ def registro_profesor(request):
         apellido = request.POST.get('apellido')
         email = request.POST.get('email')
         password = request.POST.get('password')
-        password2 = request.POST.get('password2')
+        password2 = request.POST.get('confirmPassword')
         telefono = request.POST.get('telefono')
         fecha_nacimiento = request.POST.get('fecha_nacimiento')
         sexo = request.POST.get('sexo')
@@ -115,11 +115,11 @@ def registro_profesor(request):
 
         if password != password2:
             error = "Las contraseñas no coinciden."
-            return render(request, 'Usuarios/registro_profesor.html', {'error': error})
+            return render(request, 'usuarios/registro_docente.html', {'error': error})
         
         if UsuarioPersonalizado.objects.filter(email=email).exists():
             error = "El correo electrónico ya está en uso."
-            return render(request, 'Usuarios/registro_profesor.html', {'error': error})
+            return render(request, 'usuarios/registro_docente.html', {'error': error})
         
         usuarioCreado = UsuarioPersonalizado.objects.create_user(
             username=username,
@@ -150,23 +150,37 @@ def registro_profesor(request):
 
         enviar_correo_verificacion(usuarioCreado, token.token)
 
-        return render(request, 'Usuarios/correo_enviado.html', {'email': email})
+        return render(request, 'usuarios/registro-espera.html', {'email': email})
     else:
-        return render(request, 'Usuarios/registro_profesor.html')
+        return render(request, 'usuarios/registro.html')
 
 
 def activar_cuenta(request, token):
     try:
         token_obj = TokensVerificacion.objects.get(token=token)
     except TokensVerificacion.DoesNotExist:
-        return render(request, 'Usuarios/error_activar_cuenta.html', {'error': 'Token inválido o expirado.'})
+        return render(request, 'usuarios/registro-error.html', {'error': 'Token inválido o expirado.'})
 
     if token_obj.fecha_expiracion < timezone.now():
-        return render(request, 'Usuarios/error_activar_cuenta.html', {'error': 'Token expirado.'})
+        return render(request, 'usuarios/registro-error.html', {'error': 'Token expirado.'})
 
     usuario = token_obj.usuario
     usuario.is_active = True
     usuario.save()
     token_obj.delete()
 
-    return render(request, 'Usuarios/cuenta_activada.html', {'success': 'Cuenta activada exitosamente.'})
+    return render(request, 'usuarios/bienvenida.html', {'success': 'Cuenta activada exitosamente.'})
+
+def registrar_usuario(request):
+    return render(request, 'usuarios/registroOpcion.html')
+
+def vista_registro_alumno(request):
+    if request.method == 'POST':
+        return registro_estudiante(request)
+    return render(request, 'usuarios/registro_alumno.html')
+
+def vista_registro_profesor(request):
+    if request.method == 'POST':
+        return registro_profesor(request)
+    return render(request, 'usuarios/registro_docente.html')
+

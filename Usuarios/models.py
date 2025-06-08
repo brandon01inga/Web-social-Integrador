@@ -1,12 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-
-# Create your models here.
+from django.utils import timezone
 
 class UsuarioPersonalizado(AbstractUser):
     nombre = models.CharField(max_length=30, blank=True, null=True)
     apellido = models.CharField(max_length=30, blank=True, null=True)
-    username = models.CharField(max_length=150)
     dni = models.CharField(max_length=15, unique=True, blank=True, null=True)
     email = models.EmailField(unique=True)
     carrera = models.CharField(max_length=100, blank=True, null=True)
@@ -14,19 +12,25 @@ class UsuarioPersonalizado(AbstractUser):
     fecha_nacimiento = models.DateField(blank=True, null=True)
     sexo = models.CharField(max_length=10, choices=[('M', 'Masculino'), ('F', 'Femenino')], blank=True, null=True)
     ubicacion = models.CharField(max_length=255, blank=True, null=True)
-    tipoUsuario = models.CharField(max_length=20, choices=[('estudiante', 'Estudiante'), ('profesor', 'Profesor')])
+    tipoUsuario = models.CharField(
+        max_length=20,
+        choices=[('estudiante', 'Estudiante'), ('profesor', 'Profesor')],
+        default='estudiante'
+    )
     fechaCreacion = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.username
+
 
 class Docente(models.Model):
     usuario = models.OneToOneField(UsuarioPersonalizado, on_delete=models.CASCADE)
     facultadDirigido = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
-        return f"Docente: {self.usuario.username} - {self.departamento}"
+        return f"Docente: {self.usuario.username} - {self.facultadDirigido}"
     
+
 class Estudiante(models.Model):
     usuario = models.OneToOneField(UsuarioPersonalizado, on_delete=models.CASCADE)
     carrera = models.CharField(max_length=100, blank=True, null=True)
@@ -36,6 +40,7 @@ class Estudiante(models.Model):
     def __str__(self):
         return f"Estudiante: {self.usuario.username}"
     
+
 class TokensVerificacion(models.Model):
     usuario = models.ForeignKey(UsuarioPersonalizado, on_delete=models.CASCADE)
     token = models.CharField(max_length=100)
@@ -44,4 +49,3 @@ class TokensVerificacion(models.Model):
 
     def __str__(self):
         return f"Token de verificación para {self.usuario.username}"
-    
