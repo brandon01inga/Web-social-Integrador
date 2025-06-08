@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>En proceso de verificación | impulsa+UPT</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        background: linear-gradient(
+          135deg,
+          #be3535 0%,
+          #8a1e1e 50%,
+          #f36c6c 100%
+        );
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      /* Animated Background */
+      .animated-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      .floating-icon {
+        position: absolute;
+        animation: floatSlow 8s ease-in-out infinite;
+        opacity: 0.1;
+        font-size: 24px;
+        color: white;
+      }
+
+      .floating-icon:nth-child(1) {
+        top: 10%;
+        left: 10%;
+        animation-delay: 0s;
+      }
+      .floating-icon:nth-child(2) {
+        top: 20%;
+        right: 15%;
+        animation-delay: 2s;
+      }
+      .floating-icon:nth-child(3) {
+        bottom: 30%;
+        left: 20%;
+        animation-delay: 4s;
+      }
+      .floating-icon:nth-child(4) {
+        bottom: 20%;
+        right: 10%;
+        animation-delay: 6s;
+      }
+      .floating-icon:nth-child(5) {
+        top: 50%;
+        left: 5%;
+        animation-delay: 1s;
+      }
+      .floating-icon:nth-child(6) {
+        top: 60%;
+        right: 5%;
+        animation-delay: 3s;
+      }
+
+      @keyframes floatSlow {
+        0%,
+        100% {
+          transform: translateY(0px) rotate(0deg);
+        }
+        25% {
+          transform: translateY(-15px) rotate(90deg);
+        }
+        50% {
+          transform: translateY(-30px) rotate(180deg);
+        }
+        75% {
+          transform: translateY(-15px) rotate(270deg);
+        }
+      }
+
+      /* Main Container */
+      .container {
+        position: relative;
+        z-index: 2;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      /* Logo Section */
+      .logo-section {
+        text-align: center;
+        margin-bottom: 40px;
+        animation: fadeInDown 1s ease-out;
+      }
+
+      .logo {
+        height: 80px;
+        width: auto;
+        margin-bottom: 20px;
+        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+      }
+
+      .logo-text {
+        color: white;
+        font-size: 24px;
+        font-weight: 600;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      /* Status Card */
+      .status-card {
+        background: white;
+        border-radius: 20px;
+        padding: 40px;
+        max-width: 700px;
+        width: 100%;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        animation: fadeInUp 1s ease-out 0.3s both;
+      }
+
+      .status-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #f59e0b, #3b82f6, #10b981);
+        animation: pulse 2s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.7;
+        }
+      }
+
+      /* Character Section */
+      .character-section {
+        margin-bottom: 30px;
+        position: relative;
+      }
+
+      .character {
+        width: 150px;
+        height: 150px;
+        margin: 0 auto 20px;
+        background: linear-gradient(135deg, #f59e0b, #fbbf24);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 80px;
+        animation: breathe 3s ease-in-out infinite;
+        box-shadow: 0 10px 20px rgba(245, 158, 11, 0.3);
+        position: relative;
+      }
+
+      .character::before {
+        content: "";
+        position: absolute;
+        top: -5px;
+        left: -5px;
+        right: -5px;
+        bottom: -5px;
+        border-radius: 50%;
+        background: linear-gradient(45deg, #3b82f6, #f59e0b, #10b981);
+        z-index: -1;
+        animation: rotateGlow 6s linear infinite;
+      }
+
+      @keyframes breathe {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+      }
+
+      @keyframes rotateGlow {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .status-indicator {
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        width: 40px;
+        height: 40px;
+        background: #f59e0b;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        animation: blink 2s ease-in-out infinite;
+        border: 3px solid white;
+      }
+
+      @keyframes blink {
+        0%,
+        50% {
+          opacity: 1;
+        }
+        51%,
+        100% {
+          opacity: 0.3;
+        }
+      }
+
+      /* Status Text */
+      .status-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: #111827;
+        margin-bottom: 15px;
+        background: linear-gradient(135deg, #3b82f6, #f59e0b);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .status-subtitle {
+        font-size: 18px;
+        color: #4b5563;
+        margin-bottom: 25px;
+        font-weight: 500;
+      }
+
+      .status-message {
+        font-size: 16px;
+        color: #6b7280;
+        line-height: 1.6;
+        margin-bottom: 30px;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      /* Email Section */
+      .email-section {
+        background: #f8fafc;
+        border-radius: 12px;
+        padding: 25px;
+        margin-bottom: 30px;
+        border-left: 4px solid #3b82f6;
+      }
+
+      .email-icon {
+        font-size: 40px;
+        margin-bottom: 15px;
+        animation: emailPulse 2s ease-in-out infinite;
+      }
+
+      @keyframes emailPulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+      }
+
+      .email-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #111827;
+        margin-bottom: 10px;
+      }
+
+      .email-description {
+        font-size: 14px;
+        color: #6b7280;
+        margin-bottom: 15px;
+      }
+
+      .email-address {
+        background: white;
+        padding: 12px 16px;
+        border-radius: 8px;
+        border: 2px solid #e5e7eb;
+        font-family: monospace;
+        font-size: 16px;
+        color: #3b82f6;
+        font-weight: 600;
+      }
+
+      /* Timeline */
+      .timeline {
+        margin-bottom: 30px;
+      }
+
+      .timeline-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #111827;
+        margin-bottom: 20px;
+      }
+
+      .timeline-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+        text-align: left;
+      }
+
+      .timeline-icon {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .timeline-icon.completed {
+        background: #10b981;
+        color: white;
+      }
+
+      .timeline-icon.current {
+        background: #f59e0b;
+        color: white;
+        animation: currentStep 2s ease-in-out infinite;
+      }
+
+      .timeline-icon.pending {
+        background: #e5e7eb;
+        color: #9ca3af;
+      }
+
+      @keyframes currentStep {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+      }
+
+      .timeline-text {
+        font-size: 14px;
+        color: #374151;
+      }
+
+      .timeline-text.completed {
+        color: #10b981;
+        font-weight: 500;
+      }
+
+      .timeline-text.current {
+        color: #f59e0b;
+        font-weight: 600;
+      }
+
+      /* Action Buttons */
+      .action-section {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #3b82f6, #1e40af);
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 50px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn-primary::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: left 0.5s;
+      }
+
+      .btn-primary:hover::before {
+        left: 100%;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6);
+      }
+
+      .btn-secondary {
+        background: transparent;
+        color: #3b82f6;
+        border: 2px solid #3b82f6;
+        padding: 10px 25px;
+        border-radius: 50px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .btn-secondary:hover {
+        background: #3b82f6;
+        color: white;
+        transform: translateY(-2px);
+      }
+
+      /* Loading Animation */
+      .loading-dots {
+        display: inline-flex;
+        gap: 4px;
+        margin-left: 10px;
+      }
+
+      .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #3b82f6;
+        animation: loadingDots 1.5s ease-in-out infinite;
+      }
+
+      .dot:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .dot:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+
+      @keyframes loadingDots {
+        0%,
+        80%,
+        100% {
+          transform: scale(0.8);
+          opacity: 0.5;
+        }
+        40% {
+          transform: scale(1.2);
+          opacity: 1;
+        }
+      }
+
+      /* Animations */
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .container {
+          padding: 15px;
+        }
+
+        .status-card {
+          padding: 30px 20px;
+          margin: 20px 0;
+        }
+
+        .logo {
+          height: 60px;
+        }
+
+        .logo-text {
+          font-size: 20px;
+        }
+
+        .status-title {
+          font-size: 24px;
+        }
+
+        .status-subtitle {
+          font-size: 16px;
+        }
+
+        .character {
+          width: 120px;
+          height: 120px;
+          font-size: 60px;
+        }
+
+        .email-section {
+          padding: 20px 15px;
+        }
+
+        .action-section {
+          flex-direction: column;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .status-card {
+          padding: 25px 15px;
+        }
+
+        .status-title {
+          font-size: 20px;
+        }
+
+        .character {
+          width: 100px;
+          height: 100px;
+          font-size: 50px;
+        }
+
+        .email-address {
+          font-size: 14px;
+          padding: 10px 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Animated Background -->
+    <div class="animated-bg">
+      <div class="floating-icon">📧</div>
+      <div class="floating-icon">⏰</div>
+      <div class="floating-icon">🔍</div>
+      <div class="floating-icon">📋</div>
+      <div class="floating-icon">✉️</div>
+      <div class="floating-icon">⌛</div>
+    </div>
+
+    <div class="container">
+      <!-- Logo Section -->
+      <div class="logo-section">
+        <img
+          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-CawNaA2EeAyiT6Ufy6YCOW6LObOPW0.png"
+          alt="impulsa+UPT"
+          class="logo"
+        />
+        <div class="logo-text">Red Social Universitaria</div>
+      </div>
+
+      <!-- Status Card -->
+      <div class="status-card">
+        <!-- Character Section -->
+        <div class="character-section">
+          <div class="character">
+            ⏳
+            <div class="status-indicator">📧</div>
+          </div>
+        </div>
+
+        <!-- Status Text -->
+        <h1 class="status-title">Tu solicitud está en proceso</h1>
+        <h2 class="status-subtitle">Estamos verificando tu información</h2>
+        <p class="status-message">
+          Hemos recibido tu solicitud para unirte a
+          <strong>impulsa+UPT</strong>. Nuestro equipo está revisando tu
+          información académica para garantizar que formes parte de nuestra
+          comunidad universitaria verificada.
+        </p>
+
+        <!-- Email Section -->
+        <div class="email-section">
+          <div class="email-icon">📬</div>
+          <div class="email-title">
+            Te enviaremos la confirmación por correo
+          </div>
+          <div class="email-description">
+            Recibirás un correo electrónico en la siguiente dirección una vez
+            que tu cuenta sea aprobada:
+          </div>
+          <div class="email-address" id="userEmail">usuario@ejemplo.com</div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Simular email del usuario (en una app real vendría del backend)
+      function setUserEmail() {
+        const email =
+          localStorage.getItem("userEmail") || "Ejm:  U2388362@utp.edu.pe";
+        document.getElementById("userEmail").textContent = email;
+      }
+
+      // Agregar animaciones CSS para notificaciones
+      const style = document.createElement("style");
+      style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+      document.head.appendChild(style);
+
+      // Animación del personaje
+      function animateCharacter() {
+        const character = document.querySelector(".character");
+        const waitingEmojis = ["⏳", "⌛", "🕐", "📧", "🔍"];
+        let currentIndex = 0;
+
+        setInterval(() => {
+          character.style.transform = "scale(1.1)";
+          setTimeout(() => {
+            character.textContent = waitingEmojis[currentIndex];
+            character.style.transform = "scale(1)";
+            currentIndex = (currentIndex + 1) % waitingEmojis.length;
+          }, 200);
+        }, 4000);
+      }
+
+      // Simular progreso de verificación
+      function simulateProgress() {
+        const steps = document.querySelectorAll(".timeline-item");
+        let currentStep = 1; // Empezamos en el paso 2 (verificación)
+
+        // Simular avance cada 10 segundos (solo para demo)
+        const progressInterval = setInterval(() => {
+          if (currentStep < steps.length - 1) {
+            // Marcar paso actual como completado
+            const currentIcon =
+              steps[currentStep].querySelector(".timeline-icon");
+            const currentText =
+              steps[currentStep].querySelector(".timeline-text");
+
+            currentIcon.className = "timeline-icon completed";
+            currentIcon.textContent = "✓";
+            currentText.className = "timeline-text completed";
+
+            currentStep++;
+
+            // Marcar siguiente paso como actual
+            if (currentStep < steps.length) {
+              const nextIcon =
+                steps[currentStep].querySelector(".timeline-icon");
+              const nextText =
+                steps[currentStep].querySelector(".timeline-text");
+
+              nextIcon.className = "timeline-icon current";
+              nextText.className = "timeline-text current";
+            }
+          } else {
+            clearInterval(progressInterval);
+            // Redirigir a página de bienvenida cuando termine
+            setTimeout(() => {
+              showNotification(
+                "🎉 ¡Verificación completada! Redirigiendo...",
+                "success"
+              );
+              setTimeout(() => {
+                window.location.href = "bienvenida-impulsa-upt.html";
+              }, 2000);
+            }, 3000);
+          }
+        }, 10000); // Cambiar cada 10 segundos para demo
+      }
+
+      // Efecto de typing para el título
+      function typeWriter() {
+        const title = document.querySelector(".status-title");
+        const text = "Tu solicitud está en proceso";
+        title.textContent = "";
+
+        let i = 0;
+        const timer = setInterval(() => {
+          if (i < text.length) {
+            title.textContent += text.charAt(i);
+            i++;
+          } else {
+            clearInterval(timer);
+          }
+        }, 80);
+      }
+
+      // Inicializar todo cuando la página carga
+      document.addEventListener("DOMContentLoaded", function () {
+        setUserEmail();
+        animateCharacter();
+
+        // Iniciar simulación de progreso después de 3 segundos
+        setTimeout(() => {
+          // simulateProgress(); // Descomenta para ver la simulación
+        }, 3000);
+
+        // Iniciar verificación de estado
+        checkStatus();
+      });
+
+      // Efecto de entrada escalonada
+      window.addEventListener("load", function () {
+        const elements = [".email-section", ".timeline", ".action-section"];
+        elements.forEach((selector, index) => {
+          const element = document.querySelector(selector);
+          element.style.opacity = "0";
+          element.style.transform = "translateY(20px)";
+
+          setTimeout(() => {
+            element.style.transition = "all 0.5s ease";
+            element.style.opacity = "1";
+            element.style.transform = "translateY(0)";
+          }, 1000 + index * 300);
+        });
+      });
+
+      // Actualizar tiempo de espera
+      function updateWaitTime() {
+        const waitTimeElement = document.createElement("div");
+        waitTimeElement.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                left: 20px;
+                background: rgba(0, 0, 0, 0.8);
+                color: white;
+                padding: 10px 15px;
+                border-radius: 8px;
+                font-size: 12px;
+                z-index: 1000;
+            `;
+
+        let seconds = 0;
+        setInterval(() => {
+          seconds++;
+          const minutes = Math.floor(seconds / 60);
+          const remainingSeconds = seconds % 60;
+          waitTimeElement.textContent = `Tiempo de espera: ${minutes}:${remainingSeconds
+            .toString()
+            .padStart(2, "0")}`;
+        }, 1000);
+
+        document.body.appendChild(waitTimeElement);
+      }
+
+      // Iniciar contador de tiempo
+      updateWaitTime();
+    </script>
+  </body>
+</html>
