@@ -1,0 +1,8 @@
+<h2>Crear publicación</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Publicar</button>
+    <a href="{% url 'lista_publicaciones' %}">Volver a publicaciones</a>
+
+</form>
