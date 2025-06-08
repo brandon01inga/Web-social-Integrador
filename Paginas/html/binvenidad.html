@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>¡Bienvenido a impulsa+UTP! | Tu nueva comunidad universitaria</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        background: linear-gradient(
+          135deg,
+          #e40505 0%,
+          #b64f4f 50%,
+          #991b1b 100%
+        );
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      /* Particles Background */
+      .particles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      .particle {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        animation: float 6s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-20px) rotate(180deg);
+        }
+      }
+
+      /* Main Container */
+      .container {
+        position: relative;
+        z-index: 2;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      /* Logo Section */
+      .logo-section {
+        text-align: center;
+        margin-bottom: 40px;
+        animation: fadeInDown 1s ease-out;
+      }
+
+      .logo {
+        height: 80px;
+        width: auto;
+        margin-bottom: 20px;
+        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+      }
+
+      .logo-text {
+        color: white;
+        font-size: 24px;
+        font-weight: 600;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      /* Welcome Card */
+      .welcome-card {
+        background: white;
+        border-radius: 20px;
+        padding: 40px;
+        max-width: 800px;
+        width: 100%;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        animation: fadeInUp 1s ease-out 0.3s both;
+      }
+
+      .welcome-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #dc2626, #f59e0b, #10b981, #3b82f6);
+        animation: shimmer 2s ease-in-out infinite;
+      }
+
+      @keyframes shimmer {
+        0% {
+          transform: translateX(-100%);
+        }
+        100% {
+          transform: translateX(100%);
+        }
+      }
+
+      /* Character Section */
+      .character-section {
+        margin-bottom: 30px;
+        position: relative;
+      }
+
+      .character {
+        width: 150px;
+        height: 150px;
+        margin: 0 auto 20px;
+        background: linear-gradient(135deg, #fbbf24, #f59e0b);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 80px;
+        animation: bounce 2s ease-in-out infinite;
+        box-shadow: 0 10px 20px rgba(245, 158, 11, 0.3);
+        position: relative;
+      }
+
+      .character::before {
+        content: "";
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        right: -10px;
+        bottom: -10px;
+        border-radius: 50%;
+        background: linear-gradient(45deg, #fbbf24, #f59e0b, #dc2626);
+        z-index: -1;
+        animation: rotate 4s linear infinite;
+      }
+
+      @keyframes bounce {
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
+          transform: translateY(0);
+        }
+        40% {
+          transform: translateY(-10px);
+        }
+        60% {
+          transform: translateY(-5px);
+        }
+      }
+
+      @keyframes rotate {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .celebration-emojis {
+        position: absolute;
+        top: -20px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 24px;
+        animation: celebrate 3s ease-in-out infinite;
+      }
+
+      @keyframes celebrate {
+        0%,
+        100% {
+          transform: translateX(-50%) translateY(0) scale(1);
+        }
+        50% {
+          transform: translateX(-50%) translateY(-10px) scale(1.2);
+        }
+      }
+
+      /* Welcome Text */
+      .welcome-title {
+        font-size: 32px;
+        font-weight: 700;
+        color: #111827;
+        margin-bottom: 15px;
+        background: linear-gradient(135deg, #dc2626, #f59e0b);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .welcome-subtitle {
+        font-size: 20px;
+        color: #4b5563;
+        margin-bottom: 25px;
+        font-weight: 500;
+      }
+
+      .welcome-message {
+        font-size: 16px;
+        color: #6b7280;
+        line-height: 1.6;
+        margin-bottom: 30px;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      /* Features Section */
+      .features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-bottom: 40px;
+      }
+
+      .feature {
+        background: #f9fafb;
+        padding: 20px;
+        border-radius: 12px;
+        text-align: center;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+      }
+
+      .feature:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        border-color: #dc2626;
+      }
+
+      .feature-icon {
+        font-size: 40px;
+        margin-bottom: 15px;
+        display: block;
+      }
+
+      .feature-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #111827;
+        margin-bottom: 8px;
+      }
+
+      .feature-description {
+        font-size: 14px;
+        color: #6b7280;
+        line-height: 1.4;
+      }
+
+      /* CTA Section */
+      .cta-section {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+      }
+
+      .cta-primary {
+        background: linear-gradient(135deg, #dc2626, #b91c1c);
+        color: white;
+        border: none;
+        padding: 15px 40px;
+        border-radius: 50px;
+        font-size: 18px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(220, 38, 38, 0.4);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .cta-primary::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: left 0.5s;
+      }
+
+      .cta-primary:hover::before {
+        left: 100%;
+      }
+
+      .cta-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(220, 38, 38, 0.6);
+      }
+
+      .cta-secondary {
+        background: transparent;
+        color: #dc2626;
+        border: 2px solid #dc2626;
+        padding: 12px 30px;
+        border-radius: 50px;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .cta-secondary:hover {
+        background: #dc2626;
+        color: white;
+        transform: translateY(-2px);
+      }
+
+      /* Progress Bar */
+      .progress-section {
+        margin-top: 30px;
+        width: 100%;
+      }
+
+      .progress-label {
+        font-size: 14px;
+        color: #6b7280;
+        margin-bottom: 10px;
+        text-align: left;
+      }
+
+      .progress-bar {
+        width: 100%;
+        height: 8px;
+        background: #e5e7eb;
+        border-radius: 4px;
+        overflow: hidden;
+      }
+
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #dc2626, #f59e0b);
+        border-radius: 4px;
+        width: 0%;
+        animation: fillProgress 3s ease-out 1s forwards;
+      }
+
+      @keyframes fillProgress {
+        to {
+          width: 100%;
+        }
+      }
+
+      /* Floating Elements */
+      .floating-element {
+        position: absolute;
+        animation: floatAround 8s ease-in-out infinite;
+        opacity: 0.1;
+        font-size: 24px;
+      }
+
+      .floating-element:nth-child(1) {
+        top: 10%;
+        left: 10%;
+        animation-delay: 0s;
+      }
+      .floating-element:nth-child(2) {
+        top: 20%;
+        right: 15%;
+        animation-delay: 1s;
+      }
+      .floating-element:nth-child(3) {
+        bottom: 30%;
+        left: 20%;
+        animation-delay: 2s;
+      }
+      .floating-element:nth-child(4) {
+        bottom: 20%;
+        right: 10%;
+        animation-delay: 3s;
+      }
+
+      @keyframes floatAround {
+        0%,
+        100% {
+          transform: translateY(0px) rotate(0deg);
+        }
+        25% {
+          transform: translateY(-20px) rotate(90deg);
+        }
+        50% {
+          transform: translateY(-10px) rotate(180deg);
+        }
+        75% {
+          transform: translateY(-15px) rotate(270deg);
+        }
+      }
+
+      /* Animations */
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .container {
+          padding: 15px;
+        }
+
+        .welcome-card {
+          padding: 30px 20px;
+          margin: 20px 0;
+        }
+
+        .logo {
+          height: 60px;
+        }
+
+        .logo-text {
+          font-size: 20px;
+        }
+
+        .welcome-title {
+          font-size: 24px;
+        }
+
+        .welcome-subtitle {
+          font-size: 18px;
+        }
+
+        .character {
+          width: 120px;
+          height: 120px;
+          font-size: 60px;
+        }
+
+        .features {
+          grid-template-columns: 1fr;
+          gap: 15px;
+        }
+
+        .cta-section {
+          flex-direction: column;
+        }
+
+        .cta-primary {
+          width: 100%;
+          padding: 15px 20px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .welcome-card {
+          padding: 25px 15px;
+        }
+
+        .welcome-title {
+          font-size: 20px;
+        }
+
+        .welcome-subtitle {
+          font-size: 16px;
+        }
+
+        .character {
+          width: 100px;
+          height: 100px;
+          font-size: 50px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Particles Background -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Floating Elements -->
+    <div class="floating-element">🎓</div>
+    <div class="floating-element">💼</div>
+    <div class="floating-element">🚀</div>
+    <div class="floating-element">⭐</div>
+
+    <div class="container">
+      <!-- Logo Section -->
+      <div class="logo-section">
+        <img
+          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-CawNaA2EeAyiT6Ufy6YCOW6LObOPW0.png"
+          alt="impulsa+UTP Logo"
+          class="logo"
+        />
+        <div class="logo-text">Red Social Universitaria</div>
+      </div>
+
+      <!-- Welcome Card -->
+      <div class="welcome-card">
+        <!-- Character Section -->
+        <div class="character-section">
+          <div class="celebration-emojis">🎉✨🎊</div>
+          <div class="character">🎓</div>
+        </div>
+
+        <!-- Welcome Text -->
+        <h1 class="welcome-title">¡Bienvenido a impulsa+UTP!</h1>
+        <h2 class="welcome-subtitle">
+          Ya formas parte de nuestra comunidad universitaria
+        </h2>
+        <p class="welcome-message">
+          ¡Felicidades! Ahora perteneces a la red social más innovadora de la
+          Universidad Privada de Tacna. Aquí podrás conectar con estudiantes,
+          profesores y profesionales, además de encontrar tu
+          <strong>primera práctica profesional</strong> y oportunidades de
+          crecimiento académico.
+        </p>
+
+        <!-- Features -->
+        <div class="features">
+          <div class="feature">
+            <span class="feature-icon">👥</span>
+            <div class="feature-title">Networking</div>
+            <div class="feature-description">
+              Conecta con estudiantes y profesionales de tu área
+            </div>
+          </div>
+          <div class="feature">
+            <span class="feature-icon">📚</span>
+            <div class="feature-title">Proyectos</div>
+            <div class="feature-description">
+              Conoce nuestros nuevos proyectos colaborativos
+            </div>
+          </div>
+          <div class="feature">
+            <span class="feature-icon">🎯</span>
+            <div class="feature-title">Eventos UTP</div>
+            <div class="feature-description">
+              Participa en hackathons, seminarios y talleres
+            </div>
+          </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-section">
+          <div class="progress-label">navega...........</div>
+          <div class="progress-bar">
+            <div class="progress-fill"></div>
+          </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="cta-section">
+          <button class="cta-primary" onclick="startJourney()">
+            🚀 Ingresar a la plataforma
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Crear partículas de fondo
+      function createParticles() {
+        const particlesContainer = document.getElementById("particles");
+        const particleCount = 50;
+
+        for (let i = 0; i < particleCount; i++) {
+          const particle = document.createElement("div");
+          particle.className = "particle";
+
+          // Tamaño aleatorio
+          const size = Math.random() * 4 + 2;
+          particle.style.width = size + "px";
+          particle.style.height = size + "px";
+
+          // Posición aleatoria
+          particle.style.left = Math.random() * 100 + "%";
+          particle.style.top = Math.random() * 100 + "%";
+
+          // Duración de animación aleatoria
+          particle.style.animationDuration = Math.random() * 3 + 3 + "s";
+          particle.style.animationDelay = Math.random() * 2 + "s";
+
+          particlesContainer.appendChild(particle);
+        }
+      }
+
+      // Función para comenzar el viaje
+      function startJourney() {
+        const button = document.querySelector(".cta-primary");
+        button.innerHTML = "⏳ Preparando tu perfil...";
+        button.disabled = true;
+
+        // Simular carga
+        setTimeout(() => {
+          button.innerHTML = "✅ ¡Listo! Redirigiendo...";
+
+          setTimeout(() => {
+            // Aquí puedes redirigir a la página principal
+            window.location.href = "inicio.html";
+          }, 1500);
+        }, 2000);
+      }
+
+      // Función para explorar la plataforma
+      function explorePlatform() {
+        // Mostrar modal o tour de la plataforma
+        alert(
+          "🎯 ¡Genial! Te mostraremos las principales funciones de impulsa+UTP"
+        );
+
+        // Aquí puedes agregar un tour interactivo
+        setTimeout(() => {
+          window.location.href = "inicio.html";
+        }, 1000);
+      }
+
+      // Animación del personaje
+      function animateCharacter() {
+        const character = document.querySelector(".character");
+        const emojis = ["🎓", "😊", "🚀", "⭐", "💡", "🎯"];
+        let currentIndex = 0;
+
+        setInterval(() => {
+          character.style.transform = "scale(1.1)";
+          setTimeout(() => {
+            character.textContent = emojis[currentIndex];
+            character.style.transform = "scale(1)";
+            currentIndex = (currentIndex + 1) % emojis.length;
+          }, 200);
+        }, 3000);
+      }
+
+      // Efectos de hover para las características
+      function addFeatureEffects() {
+        const features = document.querySelectorAll(".feature");
+
+        features.forEach((feature) => {
+          feature.addEventListener("mouseenter", function () {
+            this.style.background = "linear-gradient(135deg, #fef2f2, #fee2e2)";
+          });
+
+          feature.addEventListener("mouseleave", function () {
+            this.style.background = "#f9fafb";
+          });
+        });
+      }
+
+      // Animación de escritura para el título
+      function typeWriter() {
+        const title = document.querySelector(".welcome-title");
+        const text = "¡Bienvenido a impulsa+UTP!";
+        title.textContent = "";
+
+        let i = 0;
+        const timer = setInterval(() => {
+          if (i < text.length) {
+            title.textContent += text.charAt(i);
+            i++;
+          } else {
+            clearInterval(timer);
+          }
+        }, 100);
+      }
+
+      // Confetti effect
+      function createConfetti() {
+        const colors = ["#dc2626", "#f59e0b", "#10b981", "#3b82f6", "#8b5cf6"];
+
+        for (let i = 0; i < 30; i++) {
+          setTimeout(() => {
+            const confetti = document.createElement("div");
+            confetti.style.position = "fixed";
+            confetti.style.left = Math.random() * 100 + "vw";
+            confetti.style.top = "-10px";
+            confetti.style.width = "10px";
+            confetti.style.height = "10px";
+            confetti.style.backgroundColor =
+              colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.borderRadius = "50%";
+            confetti.style.zIndex = "1000";
+            confetti.style.pointerEvents = "none";
+            confetti.style.animation = "fall 3s linear forwards";
+
+            document.body.appendChild(confetti);
+
+            setTimeout(() => {
+              confetti.remove();
+            }, 3000);
+          }, i * 100);
+        }
+      }
+
+      // Agregar animación de caída para confetti
+      const style = document.createElement("style");
+      style.textContent = `
+            @keyframes fall {
+                to {
+                    transform: translateY(100vh) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+        `;
+      document.head.appendChild(style);
+
+      // Inicializar todo cuando la página carga
+      document.addEventListener("DOMContentLoaded", function () {
+        createParticles();
+        animateCharacter();
+        addFeatureEffects();
+
+        // Crear confetti después de 1 segundo
+        setTimeout(createConfetti, 1000);
+
+        // Efecto de sonido (opcional)
+        // Puedes agregar un audio de celebración aquí
+      });
+
+      // Animación de entrada escalonada para las características
+      window.addEventListener("load", function () {
+        const features = document.querySelectorAll(".feature");
+        features.forEach((feature, index) => {
+          feature.style.opacity = "0";
+          feature.style.transform = "translateY(20px)";
+
+          setTimeout(() => {
+            feature.style.transition = "all 0.5s ease";
+            feature.style.opacity = "1";
+            feature.style.transform = "translateY(0)";
+          }, 1500 + index * 200);
+        });
+      });
+
+      // Efecto de parallax suave
+      window.addEventListener("scroll", function () {
+        const scrolled = window.pageYOffset;
+        const parallax = document.querySelector(".particles");
+        const speed = scrolled * 0.5;
+        parallax.style.transform = `translateY(${speed}px)`;
+      });
+    </script>
+  </body>
+</html>
