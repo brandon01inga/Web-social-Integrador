@@ -118,7 +118,6 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            max-height: 100vh;
             overflow-y: auto;
         }
 
@@ -400,7 +399,13 @@
                 <h2 class="register-title">Registro de Docente</h2>
             </div>
 
-            <form id="teacherForm" method="POST" action="{ url 'registro_profesor' }" novalidate>
+            {% if error %}
+            <div class="form-group error">
+                <div class="error-message" style="display:block;">{{ error }}</div>
+            </div>
+            {% endif %}
+
+            <form id="teacherForm" method="POST" action="{% url 'registro_profesor' %}" novalidate>
 
                 {% csrf_token %}
 
@@ -484,7 +489,7 @@
                     </div>
                     <div class="form-group">
                         <label for="telefonoDocente" class="form-label">Teléfono</label>
-                        <input type="tel" id="telefonoDocente" name="telefonoDocente" class="form-input" maxlength="9"
+                        <input type="tel" id="telefonoDocente" name="telefono" class="form-input" maxlength="9"
                             pattern="\d{9}" placeholder="Ej: 987654321" required>
                         <div class="error-message">El teléfono es requerido (9 dígitos)</div>
                     </div>
@@ -510,7 +515,7 @@
 
                 <div class="form-group">
                     <label for="ubicacionDocente" class="form-label">Ubicación</label>
-                    <input type="text" id="ubicacionDocente" name="ubicacionDocente" class="form-input"
+                    <input type="text" id="ubicacionDocente" name="ubicacion" class="form-input"
                         placeholder="Ciudad o distrito" required>
                     <div class="error-message">La ubicación es requerida</div>
                 </div>
@@ -575,7 +580,7 @@
             }
 
             if (field.type === "email" && value) {
-                const emailRegex = /^[^\s@]+@upt\.edu\.pe$/;
+                const emailRegex = /^[^\s@]+@utp\.edu\.pe$/;
                 if (!emailRegex.test(value)) {
                     fieldGroup.classList.add("error");
                     return false;
@@ -634,30 +639,14 @@
         });
 
         form.addEventListener("submit", function (e) {
-            e.preventDefault();
-
             let isValid = true;
-
             inputs.forEach((input) => {
                 if (!validateField(input)) {
                     isValid = false;
                 }
             });
-
-            const terms = document.getElementById("terms");
-            if (!terms.checked) {
-                alert("Debes aceptar los términos y condiciones");
-                isValid = false;
-            }
-
-            if (isValid) {
-                submitBtn.innerHTML = '<span class="loading"></span> Creando cuenta...';
-                submitBtn.disabled = true;
-
-                setTimeout(() => {
-                    alert("¡Cuenta de docente creada exitosamente! Revisa tu correo para verificar tu cuenta.");
-                    window.location.href = "espera-impulsa-upt.html";
-                }, 2000);
+            if (!isValid) {
+                e.preventDefault(); // Detiene el envío si hay errores
             }
         });
     </script>

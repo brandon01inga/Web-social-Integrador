@@ -630,18 +630,12 @@
             Recibirás un correo electrónico en la siguiente dirección una vez
             que tu cuenta sea aprobada:
           </div>
-          <div class="email-address" id="userEmail">usuario@ejemplo.com</div>
+          <div class="email-address" id="userEmail">{{ email }}</div>
         </div>
       </div>
     </div>
-
-    <script>
-      // Simular email del usuario (en una app real vendría del backend)
-      function setUserEmail() {
-        const email =
-          localStorage.getItem("userEmail") || "Ejm:  U2388362@utp.edu.pe";
-        document.getElementById("userEmail").textContent = email;
-      }
+    
+    <script>  
 
       // Agregar animaciones CSS para notificaciones
       const style = document.createElement("style");
@@ -673,51 +667,6 @@
         }, 4000);
       }
 
-      // Simular progreso de verificación
-      function simulateProgress() {
-        const steps = document.querySelectorAll(".timeline-item");
-        let currentStep = 1; // Empezamos en el paso 2 (verificación)
-
-        // Simular avance cada 10 segundos (solo para demo)
-        const progressInterval = setInterval(() => {
-          if (currentStep < steps.length - 1) {
-            // Marcar paso actual como completado
-            const currentIcon =
-              steps[currentStep].querySelector(".timeline-icon");
-            const currentText =
-              steps[currentStep].querySelector(".timeline-text");
-
-            currentIcon.className = "timeline-icon completed";
-            currentIcon.textContent = "✓";
-            currentText.className = "timeline-text completed";
-
-            currentStep++;
-
-            // Marcar siguiente paso como actual
-            if (currentStep < steps.length) {
-              const nextIcon =
-                steps[currentStep].querySelector(".timeline-icon");
-              const nextText =
-                steps[currentStep].querySelector(".timeline-text");
-
-              nextIcon.className = "timeline-icon current";
-              nextText.className = "timeline-text current";
-            }
-          } else {
-            clearInterval(progressInterval);
-            // Redirigir a página de bienvenida cuando termine
-            setTimeout(() => {
-              showNotification(
-                "🎉 ¡Verificación completada! Redirigiendo...",
-                "success"
-              );
-              setTimeout(() => {
-                window.location.href = "bienvenida-impulsa-upt.html";
-              }, 2000);
-            }, 3000);
-          }
-        }, 10000); // Cambiar cada 10 segundos para demo
-      }
 
       // Efecto de typing para el título
       function typeWriter() {
@@ -736,19 +685,6 @@
         }, 80);
       }
 
-      // Inicializar todo cuando la página carga
-      document.addEventListener("DOMContentLoaded", function () {
-        setUserEmail();
-        animateCharacter();
-
-        // Iniciar simulación de progreso después de 3 segundos
-        setTimeout(() => {
-          // simulateProgress(); // Descomenta para ver la simulación
-        }, 3000);
-
-        // Iniciar verificación de estado
-        checkStatus();
-      });
 
       // Efecto de entrada escalonada
       window.addEventListener("load", function () {
@@ -766,36 +702,6 @@
         });
       });
 
-      // Actualizar tiempo de espera
-      function updateWaitTime() {
-        const waitTimeElement = document.createElement("div");
-        waitTimeElement.style.cssText = `
-                position: fixed;
-                bottom: 20px;
-                left: 20px;
-                background: rgba(0, 0, 0, 0.8);
-                color: white;
-                padding: 10px 15px;
-                border-radius: 8px;
-                font-size: 12px;
-                z-index: 1000;
-            `;
-
-        let seconds = 0;
-        setInterval(() => {
-          seconds++;
-          const minutes = Math.floor(seconds / 60);
-          const remainingSeconds = seconds % 60;
-          waitTimeElement.textContent = `Tiempo de espera: ${minutes}:${remainingSeconds
-            .toString()
-            .padStart(2, "0")}`;
-        }, 1000);
-
-        document.body.appendChild(waitTimeElement);
-      }
-
-      // Iniciar contador de tiempo
-      updateWaitTime();
     </script>
   </body>
 </html>

@@ -47,18 +47,22 @@ def registro_estudiante(request):
         dni = request.POST.get('dni')
         username = nombre + apellido + dni
 
+        if not nombre or not apellido or not email or not password or not carrera or not telefono or not fecha_nacimiento or not sexo or not ubicacion or not anio_ingreso or not ciclo or not dni:
+            error = "Todos los campos son obligatorios."
+            return render(request, 'usuarios/registro_alumno.html', {'error': error})
+
         dominio = '@utp.edu.pe'
         if not email.endswith(dominio):
             error = f"El correo electrónico debe tener el dominio {dominio}."
-            return render(request, 'usuarios/regitro_alumno.html', {'error': error})
+            return render(request, 'usuarios/registro_alumno.html', {'error': error})
 
         if password != password2:
             error = "Las contraseñas no coinciden."
-            return render(request, 'Usuarios/regitro_alumno.html', {'error': error})
+            return render(request, 'Usuarios/registro_alumno.html', {'error': error})
         
         if UsuarioPersonalizado.objects.filter(email=email).exists():
             error = "El correo electrónico ya está en uso."
-            return render(request, 'Usuarios/regitro_alumno.html', {'error': error})
+            return render(request, 'Usuarios/registro_alumno.html', {'error': error})
         
         usuarioCreado = UsuarioPersonalizado.objects.create_user(
             username=username,
@@ -93,7 +97,7 @@ def registro_estudiante(request):
 
         return render(request, 'usuarios/registro-espera.html', {'email': email}) 
     else:
-        return render(request, 'usuarios/regitro_alumno.html')
+        return render(request, 'usuarios/registro_alumno.html')
 
 def registro_profesor(request):
     if request.method == 'POST':
@@ -112,6 +116,9 @@ def registro_profesor(request):
         dni = request.POST.get('dni')
         username = nombre + apellido + dni
 
+        if not nombre or not apellido or not email or not password or not telefono or not fecha_nacimiento or not sexo or not ubicacion or not facultad_dirigido or not carrera or not dni:
+            error = "Todos los campos son obligatorios."
+            return render(request, 'usuarios/registro_docente.html', {'error': error})
 
         if password != password2:
             error = "Las contraseñas no coinciden."
@@ -152,7 +159,7 @@ def registro_profesor(request):
 
         return render(request, 'usuarios/registro-espera.html', {'email': email})
     else:
-        return render(request, 'usuarios/registro.html')
+        return render(request, 'usuarios/registro_docente.html')
 
 
 def activar_cuenta(request, token):
@@ -169,10 +176,12 @@ def activar_cuenta(request, token):
     usuario.save()
     token_obj.delete()
 
-    return render(request, 'usuarios/bienvenida.html', {'success': 'Cuenta activada exitosamente.'})
+    return render(request, 'usuarios/bienvenido.html', {'success': 'Cuenta activada exitosamente.'})
+
 
 def registrar_usuario(request):
     return render(request, 'usuarios/registroOpcion.html')
+
 
 def vista_registro_alumno(request):
     if request.method == 'POST':
