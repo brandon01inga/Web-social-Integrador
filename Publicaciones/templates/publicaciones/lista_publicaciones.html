@@ -1,0 +1,22 @@
+<h2>Últimas publicaciones</h2>
+
+{% for pub in publicaciones %}
+<div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
+    <h3>{{ pub.titulo }}</h3>
+    <p><strong>Autor:</strong>
+        <a href="{% url 'publicaciones_usuario' pub.autor.username %}">
+            {{ pub.autor.username }}
+        </a>
+    </p>
+
+    <p><strong>Fecha:</strong> {{ pub.fecha_publicacion }}</p>
+    {% if pub.imagen %}
+    <img src="{{ pub.imagen.url }}" alt="Imagen" width="300">
+    {% endif %}
+    <p>{{ pub.contenido }}</p>
+    <a href="{% url 'crear_publicacion' %}">Crear nueva publicación</a>
+
+</div>
+{% empty %}
+<p>No hay publicaciones aún.</p>
+{% endfor %}
