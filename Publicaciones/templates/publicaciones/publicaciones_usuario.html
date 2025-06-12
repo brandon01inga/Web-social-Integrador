@@ -1,0 +1,16 @@
+<h2>Publicaciones de {{ usuario.username }}</h2>
+
+{% for pub in publicaciones %}
+    <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
+        <h3>{{ pub.titulo }}</h3>
+        <p><strong>Fecha:</strong> {{ pub.fecha_publicacion }}</p>
+        {% if pub.imagen %}
+            <img src="{{ pub.imagen.url }}" alt="Imagen" width="300">
+        {% endif %}
+        <p>{{ pub.contenido }}</p>
+    </div>
+{% empty %}
+    <p>Este usuario no ha realizado publicaciones aún.</p>
+{% endfor %}
+
+<a href="{% url 'lista_publicaciones' %}">Volver a todas las publicaciones</a>
