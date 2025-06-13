@@ -50,6 +50,14 @@ def registro_estudiante(request):
         if not nombre or not apellido or not email or not password or not carrera or not telefono or not fecha_nacimiento or not sexo or not ubicacion or not anio_ingreso or not ciclo or not dni:
             error = "Todos los campos son obligatorios."
             return render(request, 'usuarios/registro_alumno.html', {'error': error})
+        
+        if not email.casefold().startswith('u'):
+            error = "El correo electrónico de los estudiantes empieza con u."
+            return render(request, 'usuarios/registro_alumno.html', {'error': error})
+
+        if UsuarioPersonalizado.objects.filter(email=email).exists():
+            error = "El correo electrónico ya está en uso, porfavor intente iniciar sesion."
+            return render(request, 'Usuarios/registro_alumno.html', {'error': error})
 
         dominio = '@utp.edu.pe'
         if not email.endswith(dominio):
@@ -60,9 +68,7 @@ def registro_estudiante(request):
             error = "Las contraseñas no coinciden."
             return render(request, 'Usuarios/registro_alumno.html', {'error': error})
         
-        if UsuarioPersonalizado.objects.filter(email=email).exists():
-            error = "El correo electrónico ya está en uso."
-            return render(request, 'Usuarios/registro_alumno.html', {'error': error})
+        
         
         usuarioCreado = UsuarioPersonalizado.objects.create_user(
             username=username,
@@ -116,16 +122,26 @@ def registro_profesor(request):
         dni = request.POST.get('dni')
         username = nombre + apellido + dni
 
+        if UsuarioPersonalizado.objects.filter(email=email).exists():
+            error = "El correo electrónico ya está en uso, porfavor intente iniciar sesion."
+            return render(request, 'usuarios/registro_docente.html', {'error': error})
+
         if not nombre or not apellido or not email or not password or not telefono or not fecha_nacimiento or not sexo or not ubicacion or not facultad_dirigido or not carrera or not dni:
             error = "Todos los campos son obligatorios."
+            return render(request, 'usuarios/registro_docente.html', {'error': error})
+        
+        if not email.casefold().startswith('c'):
+            error = "El correo electrónico de los docentes empieza con c."
+            return render(request, 'usuarios/registro_docente.html', {'error': error})
+
+
+        dominio = '@utp.edu.pe'
+        if not email.endswith(dominio):
+            error = f"El correo electrónico debe tener el dominio {dominio}."
             return render(request, 'usuarios/registro_docente.html', {'error': error})
 
         if password != password2:
             error = "Las contraseñas no coinciden."
-            return render(request, 'usuarios/registro_docente.html', {'error': error})
-        
-        if UsuarioPersonalizado.objects.filter(email=email).exists():
-            error = "El correo electrónico ya está en uso."
             return render(request, 'usuarios/registro_docente.html', {'error': error})
         
         usuarioCreado = UsuarioPersonalizado.objects.create_user(
@@ -182,7 +198,6 @@ def activar_cuenta(request, token):
 def registrar_usuario(request):
     return render(request, 'usuarios/registroOpcion.html')
 
-
 def vista_registro_alumno(request):
     if request.method == 'POST':
         return registro_estudiante(request)
@@ -193,3 +208,58 @@ def vista_registro_profesor(request):
         return registro_profesor(request)
     return render(request, 'usuarios/registro_docente.html')
 
+
+
+def iniciar_sesion(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('contrasena')
+        
+        if not email or not password:
+            error = "Por favor, completa todos los campos."
+            return render(request, 'usuarios/iniciar_sesion.html', {'error': error})
+        try:
+            
+            usuario = UsuarioPersonalizado.objects.get(email=email)
+            token = TokensVerificacion.objects.filter(usuario=usuario).first()
+            if token and token.fecha_expiracion < timezone.now():
+                token.delete()  # Elimina el token expirado
+                nuevo_token = TokensVerificacion.objects.create(
+                    usuario=usuario,
+                    token=default_token_generator.make_token(usuario),
+                    fecha_expiracion=timezone.now() + timedelta(hours=24)
+                )
+
+                enviar_correo_verificacion(usuario, nuevo_token.token)
+
+                return render(request, 'usuarios/registro-error.html', {'error': 'Token expirado. Por favor, verifica tu correo electrónico nuevamente.'})
+
+            if not usuario.is_active:
+                if not TokensVerificacion.objects.filter(usuario=usuario).exists():
+                    return render(request, 'usuarios/registro-error.html', {'error': 'Cuenta no activada. Por favor, verifica tu correo electrónico.'})
+
+            if not usuario.check_email(email):
+                error = "El correo electrónico no coincide con el usuario."
+                return render(request, 'usuarios/iniciar_sesion.html', {'error': error})                                                                               
+            if usuario.check_password(password):
+                if not usuario.is_active:
+                    return render(request, 'usuarios/registro-error.html', {'error': 'Cuenta no activada. Por favor, verifica tu correo electrónico.'})
+                return render(request, 'usuarios/bienvenido.html', {'usuario': usuario})
+            else:
+                error = "Contraseña incorrecta."
+                return render(request, 'usuarios/iniciar_sesion.html', {'error': error})
+        except UsuarioPersonalizado.DoesNotExist:
+            error = "El correo electrónico no está registrado."
+            return render(request, 'usuarios/iniciar_sesion.html', {'error': error})
+
+    return render(request, 'usuarios/iniciar_sesion.html')
+
+def vista_iniciar_sesion(request):
+    if request.method == 'POST':
+        return iniciar_sesion(request)
+    return render(request, 'usuarios/iniciar_sesion.html')
+
+def vista_bienvenido(request):
+    if request.method == 'POST':
+        return render(request, 'usuarios/bienvenido.html')
+    return render(request, 'usuarios/bienvenido.html')
