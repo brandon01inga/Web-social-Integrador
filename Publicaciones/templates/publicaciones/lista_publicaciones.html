@@ -1,22 +1,1035 @@
-<h2>Últimas publicaciones</h2>
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>impulsa+UPT - Red Social Universitaria</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-{% for pub in publicaciones %}
-<div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
-    <h3>{{ pub.titulo }}</h3>
-    <p><strong>Autor:</strong>
-        <a href="{% url 'publicaciones_usuario' pub.autor.username %}">
-            {{ pub.autor.username }}
-        </a>
-    </p>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        background-color: #f9fafb;
+        color: #374151;
+      }
 
-    <p><strong>Fecha:</strong> {{ pub.fecha_publicacion }}</p>
-    {% if pub.imagen %}
-    <img src="{{ pub.imagen.url }}" alt="Imagen" width="300">
-    {% endif %}
-    <p>{{ pub.contenido }}</p>
-    <a href="{% url 'crear_publicacion' %}">Crear nueva publicación</a>
+      /* Header */
+      .header {
+        background: white;
+        border-bottom: 1px solid #e5e7eb;
+        padding: 12px 16px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
 
+      .header-content {
+        max-width: 1280px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      /* NUEVO: Logo impulsa+UTP */
+      .logo-container {
+        display: flex;
+        align-items: center;
+        margin-right: 24px;
+      }
+
+      .logo {
+        height: 60px;
+        width: 100px;
+      }
+
+      .search-container {
+        flex: 1;
+        max-width: 384px;
+        position: relative;
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 8px 12px 8px 40px;
+        background: #f3f4f6;
+        border: none;
+        border-radius: 8px;
+        font-size: 14px;
+      }
+
+      .search-icon {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #9ca3af;
+      }
+
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .icon-button {
+        color: #6b7280;
+        cursor: pointer;
+        padding: 8px;
+        border-radius: 8px;
+        transition: background-color 0.2s;
+        position: relative;
+      }
+
+      .icon-button:hover {
+        background: #f3f4f6;
+      }
+
+      /* NUEVO: Badge de notificaciones */
+      .notification-badge {
+        position: absolute;
+        top: 4px;
+        right: 4px;
+        background: #dc2626;
+        color: white;
+        border-radius: 50%;
+        width: 16px;
+        height: 16px;
+        font-size: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+      }
+
+      /* MODIFICADO: Avatar con foto real */
+      .avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        overflow: hidden;
+        cursor: pointer;
+        border: 2px solid #e5e7eb;
+        transition: border-color 0.2s;
+      }
+
+      .avatar:hover {
+        border-color: #dc2626;
+      }
+
+      .avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      /* Main Layout */
+      .main-container {
+        max-width: 1280px;
+        margin: 0 auto;
+        display: flex;
+        gap: 24px;
+        padding: 16px;
+      }
+
+      /* Left Sidebar */
+      .left-sidebar {
+        width: 256px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .nav-card {
+        background: white;
+        border-radius: 8px;
+        padding: 16px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      .nav-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 8px 12px;
+        border-radius: 8px;
+        text-decoration: none;
+        color: #374151;
+        transition: all 0.2s;
+      }
+
+      .nav-item:hover {
+        background: #f9fafb;
+      }
+
+      .nav-item.active {
+        background: #fef2f2;
+        color: #dc2626;
+        font-weight: 500;
+      }
+
+      /* NUEVO: Iconos específicos para navegación */
+      .nav-icon {
+        width: 20px;
+        height: 20px;
+        fill: currentColor;
+      }
+
+      .profile-card {
+        background: white;
+        border-radius: 8px;
+        padding: 16px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      .profile-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      /* MODIFICADO: Avatar del perfil con foto real */
+      .profile-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 2px solid #e5e7eb;
+      }
+
+      .profile-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .profile-name {
+        font-weight: 500;
+        color: #111827;
+      }
+
+      .profile-link {
+        font-size: 14px;
+        color: #6b7280;
+        cursor: pointer;
+      }
+
+      .profile-link:hover {
+        color: #dc2626;
+      }
+
+      /* Main Content */
+      .main-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+
+      .card {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      .card-content {
+        padding: 16px;
+      }
+
+      /* Create Post */
+      .create-post {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .post-input {
+        flex: 1;
+        padding: 12px;
+        border: none;
+        background: #f9fafb;
+        border-radius: 8px;
+        font-size: 16px;
+        margin-bottom: 16px;
+        resize: none;
+        min-height: 60px;
+      }
+
+      .post-input:focus {
+        outline: none;
+        background: #f3f4f6;
+      }
+
+      .post-actions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .post-options {
+        display: flex;
+        gap: 16px;
+      }
+
+      .post-option {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #6b7280;
+        cursor: pointer;
+        padding: 8px 12px;
+        border-radius: 6px;
+        transition: all 0.2s;
+      }
+
+      .post-option:hover {
+        color: #374151;
+        background: #f9fafb;
+      }
+
+      .publish-btn {
+        background: #dc2626;
+        color: white;
+        border: none;
+        padding: 8px 24px;
+        border-radius: 6px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+
+      .publish-btn:hover {
+        background: #b91c1c;
+      }
+
+      /* Post */
+      .post-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        margin-bottom: 16px;
+      }
+
+      .post-user {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      /* MODIFICADO: Avatar del post con foto real */
+      .post-avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 2px solid #e5e7eb;
+      }
+
+      .post-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .post-user-name {
+        font-weight: 600;
+        color: #111827;
+      }
+
+      .post-time {
+        font-size: 14px;
+        color: #6b7280;
+      }
+
+      .post-menu {
+        color: #9ca3af;
+        cursor: pointer;
+        padding: 4px;
+        border-radius: 4px;
+        transition: color 0.2s;
+      }
+
+      .post-menu:hover {
+        color: #374151;
+      }
+
+      .post-content {
+        color: #374151;
+        line-height: 1.5;
+        margin-bottom: 16px;
+      }
+
+      .post-image {
+        width: 100%;
+        height: 256px;
+        object-fit: cover;
+        border-radius: 8px;
+      }
+
+      /* NUEVO: Acciones del post */
+      .post-interactions {
+        border-top: 1px solid #e5e7eb;
+        padding-top: 12px;
+        margin-top: 16px;
+        display: flex;
+        justify-content: space-around;
+      }
+
+      .interaction-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #6b7280;
+        cursor: pointer;
+        padding: 8px 16px;
+        border-radius: 6px;
+        transition: all 0.2s;
+        font-weight: 500;
+      }
+
+      .interaction-btn:hover {
+        background: #f9fafb;
+        color: #374151;
+      }
+
+      .interaction-btn.liked {
+        color: #dc2626;
+      }
+
+      /* Right Sidebar */
+      .right-sidebar {
+        width: 320px;
+      }
+
+      .events-card {
+        background: white;
+        border-radius: 8px;
+        padding: 16px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      .events-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 16px;
+      }
+
+      .events-icon {
+        color: #dc2626;
+      }
+
+      .events-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #111827;
+      }
+
+      .events-list {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .event-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 12px;
+        border-radius: 8px;
+        transition: background-color 0.2s;
+        cursor: pointer;
+      }
+
+      .event-item:hover {
+        background: #f9fafb;
+      }
+
+      .event-dot {
+        width: 8px;
+        height: 8px;
+        background: #dc2626;
+        border-radius: 50%;
+        margin-top: 8px;
+        flex-shrink: 0;
+      }
+
+      .event-title {
+        font-weight: 500;
+        color: #111827;
+      }
+
+      .event-time {
+        font-size: 14px;
+        color: #6b7280;
+      }
+
+      .view-all-events {
+        color: #dc2626;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 14px;
+        margin-top: 16px;
+        display: inline-block;
+        padding: 8px 0;
+      }
+
+      .view-all-events:hover {
+        color: #b91c1c;
+        text-decoration: underline;
+      }
+
+      /* Icons */
+      .icon {
+        width: 20px;
+        height: 20px;
+        fill: currentColor;
+      }
+
+      .icon-sm {
+        width: 16px;
+        height: 16px;
+        fill: currentColor;
+      }
+
+      /* Responsive */
+      @media (max-width: 1024px) {
+        .main-container {
+          flex-direction: column;
+        }
+
+        .left-sidebar,
+        .right-sidebar {
+          width: 100%;
+        }
+
+        .logo-container {
+          margin-right: 16px;
+        }
+
+        .logo {
+          height: 28px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .header-content {
+          flex-wrap: wrap;
+          gap: 12px;
+        }
+
+        .search-container {
+          order: 3;
+          flex-basis: 100%;
+          max-width: none;
+        }
+
+        .post-options {
+          flex-wrap: wrap;
+          gap: 8px;
+        }
+
+        .post-option {
+          padding: 6px 8px;
+          font-size: 14px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <!-- NUEVO: Logo impulsa+UTP -->
+        <div class="logo-container">
+          <img src="img/logo-impulsa+UTP.png" alt="impulsa+UTP" class="logo" />
+        </div>
+
+        <div class="search-container">
+          <svg class="search-icon icon-sm" viewBox="0 0 20 20">
+            <path
+              fill-rule="evenodd"
+              d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+          <input
+            type="text"
+            class="search-input"
+            placeholder="Buscar en impulsa+UPT..."
+          />
+        </div>
+
+        <div class="header-actions">
+          <!-- MODIFICADO: Icono de notificaciones con badge -->
+          <div class="icon-button">
+            <svg class="icon" viewBox="0 0 24 24">
+              <path
+                d="M12 2C13.1 2 14 2.9 14 4V5.08C16.39 5.57 18 7.47 18 10V16L20 18V19H4V18L6 16V10C6 7.47 7.61 5.57 10 5.08V4C10 2.9 10.9 2 12 2ZM10 21C10 22.1 10.9 23 12 23S14 22.1 14 21"
+              />
+            </svg>
+            <span class="notification-badge">3</span>
+          </div>
+
+          <!-- MODIFICADO: Icono de mensajes -->
+          <div class="icon-button">
+            <svg class="icon" viewBox="0 0 24 24">
+              <path
+                d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM6 9H18V11H6V9ZM14 14H6V12H14V14ZM18 8H6V6H18V8Z"
+              />
+            </svg>
+          </div>
+
+          <!-- MODIFICADO: Avatar con foto real -->
+          <div class="avatar">
+            <img src="img/user-perfil.png" alt="brandon inga" />
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+      <!-- Left Sidebar -->
+      <aside class="left-sidebar">
+        <nav class="nav-card">
+          <ul class="nav-list">
+            <li>
+              <a href="#" class="nav-item active">
+                <!-- NUEVO: Icono de casa para Inicio -->
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                  <path d="M10 20V14H14V20H19V12H22L12 3L2 12H5V20H10Z" />
+                </svg>
+                <span>Inicio</span>
+              </a>
+            </li>
+            <li>
+              <a href="amigos.html" class="nav-item">
+                <!-- NUEVO: Icono de personas para Amigos -->
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                  <path
+                    d="M16 4C18.2 4 20 5.8 20 8S18.2 12 16 12 12 10.2 12 8 13.8 4 16 4ZM8 4C10.2 4 12 5.8 12 8S10.2 12 8 12 4 10.2 4 8 5.8 4 8 4ZM8 14C5.8 14 1 15.1 1 17.3V20H15V17.3C15 15.1 10.2 14 8 14ZM16 14C15.7 14 15.4 14 15.1 14.1C16.2 14.8 17 15.9 17 17.3V20H23V17.3C23 15.1 18.2 14 16 14Z"
+                  />
+                </svg>
+                <span>Amigos</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-item">
+                <!-- NUEVO: Icono de páginas -->
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                  <path
+                    d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM5 19V5H19V19H5ZM7 7H17V9H7V7ZM7 11H17V13H7V11ZM7 15H14V17H7V15Z"
+                  />
+                </svg>
+                <span>Páginas</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-item">
+                <!-- NUEVO: Icono de campana para Notificaciones -->
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                  <path
+                    d="M12 2C13.1 2 14 2.9 14 4V5.08C16.39 5.57 18 7.47 18 10V16L20 18V19H4V18L6 16V10C6 7.47 7.61 5.57 10 5.08V4C10 2.9 10.9 2 12 2ZM10 21C10 22.1 10.9 23 12 23S14 22.1 14 21"
+                  />
+                </svg>
+                <span>Notificaciones</span>
+              </a>
+            </li>
+            <li>
+              <a href="chat.html" class="nav-item">
+                <!-- NUEVO: Icono de chat para Mensajes -->
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                  <path
+                    d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM6 9H18V11H6V9ZM14 14H6V12H14V14ZM18 8H6V6H18V8Z"
+                  />
+                </svg>
+                <span>Mensajes</span>
+              </a>
+            </li>
+            <li>
+              <a href="perfil.html" class="nav-item">
+                <!-- NUEVO: Icono de persona para Perfil -->
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                  <path
+                    d="M12 12C14.21 12 16 10.21 16 8S14.21 4 12 4 8 5.79 8 8 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z"
+                  />
+                </svg>
+                <span>Perfil</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+        <div class="profile-card">
+          <div class="profile-info">
+            <!-- MODIFICADO: Avatar con foto real -->
+            <div class="profile-avatar">
+              <img src="img/user-perfil.png" alt="Brandon Inga" />
+            </div>
+            <div>
+              <div class="profile-name">Brandon Inga</div>
+              <div class="profile-link">Ver perfil</div>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+<main class="main-content">
+ <div class="card">
+  <div class="card-content">
+    <div class="create-post">
+      <div class="avatar">
+        <img src="{% static 'img/user-perfil.png' %}" alt="{{ user.username }}">
+      </div>
+
+      <form method="post" enctype="multipart/form-data" style="flex: 1;">
+        {% csrf_token %}
+     
+        {{ form.non_field_errors }}
+
+        <!-- Campo de texto (contenido) -->
+        <div style="margin-bottom: 10px;">
+          {{ form.titulo }}
+          {{ form.contenido }}
+        
+        </div>
+
+        <!-- Opciones: Foto, Video, Sentimiento -->
+        <div class="post-actions" style="display: flex; justify-content: space-between; align-items: center;">
+          <div class="post-options" style="display: flex; gap: 20px; align-items: center;">
+            <label class="post-option" for="id_imagen" style="cursor: pointer;">
+              <svg class="icon-sm" viewBox="0 0 24 24">
+                <path d="M21 19V5C21 3.9 20.1 3 ...Z" />
+              </svg>
+              <span>Foto</span>
+               {{ form.imagen }}
+            </label>
+           
+            <div class="post-option">
+              <svg class="icon-sm" viewBox="0 0 24 24">
+                <path d="M17 10.5V7C17 6.45 16.55 ...Z" />
+              </svg>
+              <span>Video</span>
+            </div>
+
+            <div class="post-option">
+              <svg class="icon-sm" viewBox="0 0 24 24">
+                <path d="M12 2L13.09 8.26L22 9 ...Z" />
+              </svg>
+              <span>Sentimiento</span>
+            </div>
+          </div>
+
+          <!-- Botón publicar -->
+          <button type="submit" class="publish-btn" style="background-color: #e53935; color: white; padding: 8px 16px; border: none; border-radius: 6px;">
+            Publicar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
-{% empty %}
-<p>No hay publicaciones aún.</p>
-{% endfor %}
+
+
+        {% for pub in publicaciones %}
+        <div class="card">
+          <div class="card-content">
+            <div class="post-header">
+              <div class="post-user">
+                <div class="post-avatar">
+                  <img src="{% static 'img/user-perfil.png' %}" alt="{{ pub.autor.username }}" />
+                </div>
+                <div>
+                  <div class="post-user-name">{{ pub.autor.username }}</div>
+                  <div class="post-time">{{ pub.fecha_publicacion|date:"d/m/Y H:i" }}</div>
+                </div>
+              </div>
+              {% if user == pub.autor %}
+              <form method="post" action="{% url 'eliminar_publicacion' pub.pk %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" onclick="return confirm('¿Eliminar publicación?')" class="icon-button" title="Eliminar">
+                  <svg class="icon" viewBox="0 0 24 24">
+                    <path
+                      d="M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z M19,4H15.5L14.79,3.29C14.61,3.11 14.35,3 14.09,3H9.91C9.65,3 9.39,3.11 9.21,3.29L8.5,4H5V6H19V4Z" />
+                  </svg>
+                </button>
+              </form>
+              {% endif %}
+            </div>
+        
+            <div class="post-content">
+              {{ pub.contenido }}
+            </div>
+        
+            {% if pub.imagen %}
+            <img src="{{ pub.imagen.url }}" alt="Imagen de la publicación" class="post-image" />
+            {% endif %}
+        
+            <div class="post-interactions">
+              <div class="interaction-btn">
+                <svg class="icon-sm" viewBox="0 0 24 24">
+                  <path d="M12 21.35L10.55 20.03C5.4 15.36 ...Z" />
+                </svg>
+                <span>Me gusta</span>
+              </div>
+              <div class="interaction-btn">
+                <svg class="icon-sm" viewBox="0 0 24 24">
+                  <path d="M20 2H4C2.9 2 2 2.9 ..." />
+                </svg>
+                <span>Comentar</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% empty %}
+        <p>No hay publicaciones aún.</p>
+        {% endfor %}
+
+
+
+        <!-- Post -->
+        <div class="card">
+          <div class="card-content">
+            <div class="post-header">
+              <div class="post-user">
+                <!-- MODIFICADO: Avatar con foto real de la universidad -->
+                <div class="post-avatar">
+                  <img
+                    src="https://images.unsplash.com/photo-1562774053-701939374585?w=150&h=150&fit=crop&crop=center"
+                    alt="Universidad Privada de Tacna"
+                  />
+                </div>
+                <div>
+                  <div class="post-user-name">Universidad Privada de Tacna</div>
+                  <div class="post-time">Hoy, 10:30</div>
+                </div>
+              </div>
+              <svg class="post-menu icon" viewBox="0 0 24 24">
+                <path
+                  d="M12 8C13.1 8 14 7.1 14 6S13.1 4 12 4 10 4.9 10 6 10.9 8 12 8ZM12 10C10.9 10 10 10.9 10 12S10.9 14 12 14 14 13.1 14 12 13.1 10 12 10ZM12 16C10.9 16 10 16.9 10 18S10.9 20 12 20 14 19.1 14 18 13.1 16 12 16Z"
+                />
+              </svg>
+            </div>
+
+            <div class="post-content">
+              ¡Bienvenidos a impulsa+UPT! Nuestra nueva plataforma para conectar
+              a estudiantes, docentes y egresados de la UPT. Compartiremos
+              novedades, eventos académicos y oportunidades de desarrollo
+              profesional.
+            </div>
+
+            <img
+              src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&h=400&fit=crop"
+              alt="Campus universitario"
+              class="post-image"
+            />
+
+            <!-- NUEVO: Interacciones del post -->
+            <div class="post-interactions">
+              <div class="interaction-btn liked">
+                <svg class="icon-sm" viewBox="0 0 24 24">
+                  <path
+                    d="M12 21.35L10.55 20.03C5.4 15.36 2 12.27 2 8.5C2 5.41 4.42 3 7.5 3C9.24 3 10.91 3.81 12 5.08C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.41 22 8.5C22 12.27 18.6 15.36 13.45 20.03L12 21.35Z"
+                  />
+                </svg>
+                <span>Me gusta</span>
+              </div>
+              <div class="interaction-btn">
+                <svg class="icon-sm" viewBox="0 0 24 24">
+                  <path
+                    d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM6 9H18V11H6V9ZM14 14H6V12H14V14ZM18 8H6V6H18V8Z"
+                  />
+                </svg>
+                <span>Comentar</span>
+              </div>
+              <div class="interaction-btn">
+                <svg class="icon-sm" viewBox="0 0 24 24">
+                  <path
+                    d="M18 16.08C17.24 16.08 16.56 16.38 16.04 16.85L8.91 12.7C8.96 12.47 9 12.24 9 12S8.96 11.53 8.91 11.3L15.96 7.19C16.5 7.69 17.21 8 18 8C19.66 8 21 6.66 21 5S19.66 2 18 2 15 3.34 15 5C15 5.24 15.04 5.47 15.09 5.7L8.04 9.81C7.5 9.31 6.79 9 6 9C4.34 9 3 10.34 3 12S4.34 15 6 15C6.79 15 7.5 14.69 8.04 14.19L15.16 18.34C15.11 18.55 15.08 18.77 15.08 19C15.08 20.61 16.39 21.92 18 21.92S20.92 20.61 20.92 19C20.92 17.39 19.61 16.08 18 16.08Z"
+                  />
+                </svg>
+                <span>Compartir</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Segundo Post -->
+        <div class="card">
+          <div class="card-content">
+            <div class="post-header">
+              <div class="post-user">
+                <div class="post-avatar">
+                  <img
+                    src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face"
+                    alt="Milton Suarez"
+                  />
+                </div>
+                <div>
+                  <div class="post-user-name">Milton Suarez</div>
+                  <div class="post-time">Hace 2 horas</div>
+                </div>
+              </div>
+              <svg class="post-menu icon" viewBox="0 0 24 24">
+                <path
+                  d="M12 8C13.1 8 14 7.1 14 6S13.1 4 12 4 10 4.9 10 6 10.9 8 12 8ZM12 10C10.9 10 10 10.9 10 12S10.9 14 12 14 14 13.1 14 12 13.1 10 12 10ZM12 16C10.9 16 10 16.9 10 18S10.9 20 12 20 14 19.1 14 18 13.1 16 12 16Z"
+                />
+              </svg>
+            </div>
+
+            <div class="post-content">
+              ¡Acabo de terminar mi proyecto final de Ingeniería de Software! 🎉
+              Fue un semestre intenso pero muy gratificante. Gracias a todos los
+              profesores y compañeros que me apoyaron en este proceso.
+            </div>
+
+            <div class="post-interactions">
+              <div class="interaction-btn">
+                <svg class="icon-sm" viewBox="0 0 24 24">
+                  <path
+                    d="M12 21.35L10.55 20.03C5.4 15.36 2 12.27 2 8.5C2 5.41 4.42 3 7.5 3C9.24 3 10.91 3.81 12 5.08C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.41 22 8.5C22 12.27 18.6 15.36 13.45 20.03L12 21.35Z"
+                  />
+                </svg>
+                <span>Me gusta</span>
+              </div>
+              <div class="interaction-btn">
+                <svg class="icon-sm" viewBox="0 0 24 24">
+                  <path
+                    d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM6 9H18V11H6V9ZM14 14H6V12H14V14ZM18 8H6V6H18V8Z"
+                  />
+                </svg>
+                <span>Comentar</span>
+              </div>
+              <div class="interaction-btn">
+                <svg class="icon-sm" viewBox="0 0 24 24">
+                  <path
+                    d="M18 16.08C17.24 16.08 16.56 16.38 16.04 16.85L8.91 12.7C8.96 12.47 9 12.24 9 12S8.96 11.53 8.91 11.3L15.96 7.19C16.5 7.69 17.21 8 18 8C19.66 8 21 6.66 21 5S19.66 2 18 2 15 3.34 15 5C15 5.24 15.04 5.47 15.09 5.7L8.04 9.81C7.5 9.31 6.79 9 6 9C4.34 9 3 10.34 3 12S4.34 15 6 15C6.79 15 7.5 14.69 8.04 14.19L15.16 18.34C15.11 18.55 15.08 18.77 15.08 19C15.08 20.61 16.39 21.92 18 21.92S20.92 20.61 20.92 19C20.92 17.39 19.61 16.08 18 16.08Z"
+                  />
+                </svg>
+                <span>Compartir</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+
+
+      </main>
+
+      <!-- Right Sidebar -->
+      <aside class="right-sidebar">
+        <div class="events-card">
+          <div class="events-header">
+            <svg class="events-icon icon" viewBox="0 0 24 24">
+              <path
+                d="M19 3H18V1H16V3H8V1H6V3H5C3.89 3 3 3.9 3 5V19C3 20.1 3.89 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM19 19H5V8H19V19ZM7 10H12V15H7V10Z"
+              />
+            </svg>
+            <h2 class="events-title">Eventos</h2>
+          </div>
+
+          <div class="events-list">
+            <div class="event-item">
+              <div class="event-dot"></div>
+              <div>
+                <div class="event-title">Taller de Desarrollo Web</div>
+                <div class="event-time">Mañana, 15:00</div>
+              </div>
+            </div>
+
+            <div class="event-item">
+              <div class="event-dot"></div>
+              <div>
+                <div class="event-title">Seminario de Innovación UPT</div>
+                <div class="event-time">Viernes, 10:00</div>
+              </div>
+            </div>
+
+            <div class="event-item">
+              <div class="event-dot"></div>
+              <div>
+                <div class="event-title">Hackathon impulsa+UPT</div>
+                <div class="event-time">Próximo Sábado</div>
+              </div>
+            </div>
+          </div>
+
+          <a href="#" class="view-all-events">Ver todos los eventos</a>
+        </div>
+      </aside>
+    </div>
+
+    <script>
+      // Funcionalidad para el textarea del post
+      const postInput = document.querySelector(".post-input");
+
+      postInput.addEventListener("input", function () {
+        this.style.height = "auto";
+        this.style.height = this.scrollHeight + "px";
+      });
+
+      // Funcionalidad para los botones de interacción
+      document.querySelectorAll(".interaction-btn").forEach((btn) => {
+        btn.addEventListener("click", function () {
+          if (this.textContent.trim().includes("Me gusta")) {
+            this.classList.toggle("liked");
+          }
+        });
+      });
+
+      // Funcionalidad para el menú del post
+      document.querySelectorAll(".post-menu").forEach((menu) => {
+        menu.addEventListener("click", function () {
+          console.log("Menú del post clickeado");
+          // Aquí puedes agregar la funcionalidad del menú
+        });
+      });
+
+      // Funcionalidad para las opciones de post
+      document.querySelectorAll(".post-option").forEach((option) => {
+        option.addEventListener("click", function () {
+          const optionType = this.textContent.trim();
+          console.log(`Opción seleccionada: ${optionType}`);
+          // Aquí puedes agregar la funcionalidad específica para cada opción
+        });
+      });
+
+      // Funcionalidad para el botón de publicar
+     // document
+       // .querySelector(".publish-btn")
+        //.addEventListener("click", function () {
+        //  const content = postInput.value.trim();
+        //  if (content) {
+         //   console.log("Publicando:", content);
+         //   postInput.value = "";
+          //  postInput.style.height = "auto";
+            // Aquí puedes agregar la lógica para crear el post
+       //   }
+      //  });
+
+      // Funcionalidad para los eventos
+      document.querySelectorAll(".event-item").forEach((event) => {
+        event.addEventListener("click", function () {
+          const eventTitle = this.querySelector(".event-title").textContent;
+          console.log(`Evento seleccionado: ${eventTitle}`);
+          // Aquí puedes agregar la funcionalidad para ver detalles del evento
+        });
+      });
+    </script>
+  </body>
+</html>
