@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Impulsa+UTP - Iniciar Sesión</title>
+  <style>
+    /* Global Styles & Body */
+    body {
+      font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; /* Modern, clean font (or fallback) */
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #f0f2f5 0%, #e0e2e5 100%); /* Subtle gradient background */
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      overflow-x: hidden; /* Prevent horizontal scroll */
+    }
+
+    /* Header */
+    header {
+      background: #D52B1E; /* Primary red */
+      color: white;
+      padding: 20px 60px;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15); /* More pronounced header shadow */
+      z-index: 10; /* Ensure header is above other content */
+    }
+
+    header img {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 50px;
+      border-radius: 50%; /* Make logo slightly rounded if it fits */
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    /* Navigation */
+    nav {
+      background: #B12418; /* Darker red */
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      z-index: 9;
+    }
+
+    nav a {
+      color: white;
+      padding: 14px 20px;
+      display: inline-block;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease; /* Added transform for hover */
+      font-weight: 600; /* Slightly bolder */
+      position: relative;
+      overflow: hidden; /* For subtle highlight effect */
+    }
+
+    nav a::after { /* Underline effect on hover */
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background-color: white;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease-out;
+    }
+
+    nav a:hover::after {
+        transform: translateX(0);
+    }
+
+    nav a:hover {
+      background: rgba(255, 255, 255, 0.1); /* Subtle white overlay on hover */
+      transform: translateY(-2px); /* Slight lift */
+    }
+
+    /* Main Content Area */
+    .main-content-area {
+      flex-grow: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 60px 20px; /* Increased padding */
+      background: #f4f4f4; /* Ensures background matches body */
+    }
+
+    /* Login Wrapper */
+    .login-wrapper {
+      display: flex;
+      background: white;
+      border-radius: 16px; /* More pronounced rounded corners */
+      box-shadow: 0 15px 40px rgba(0,0,0,0.12), 0 5px 15px rgba(0,0,0,0.08); /* Multiple, softer shadows */
+      overflow: hidden;
+      max-width: 950px; /* Wider for more impact */
+      width: 100%;
+      transform: translateY(0); /* For initial animation */
+      animation: fadeInScale 0.6s ease-out forwards; /* Entry animation */
+    }
+
+    /* Login Illustration Side */
+    .login-illustration-side {
+      flex: 1;
+      min-height: 500px; /* Taller illustration side */
+      background:
+        linear-gradient(rgba(213, 43, 30, 0.8), rgba(213, 43, 30, 0.8)), /* Darker red overlay */
+        url('https://images.unsplash.com/photo-1549923746-c5675e4e70e2?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center / cover; /* High-quality placeholder image */
+      display: flex;
+      flex-direction: column; /* For stacked text */
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-align: center;
+      padding: 30px;
+      text-shadow: 0 2px 5px rgba(0,0,0,0.4);
+    }
+
+    .login-illustration-side .illustration-title {
+        font-size: 2.2em;
+        font-weight: 700;
+        margin-bottom: 15px;
+        letter-spacing: 1px;
+    }
+
+    .login-illustration-side .illustration-subtitle {
+        font-size: 1.1em;
+        max-width: 80%;
+        line-height: 1.6;
+    }
+
+    /* Login Form Side */
+    .login-form-side {
+      flex: 1;
+      padding: 45px; /* More generous padding */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: #ffffff; /* Explicitly white */
+    }
+
+    .login-form-side h2 {
+      font-size: 2.4em; /* Larger, bolder title */
+      color: #2c3e50; /* Darker, sophisticated color */
+      margin-bottom: 30px; /* More space */
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .login-form-side form {
+      width: 100%;
+      max-width: 350px; /* Slightly wider form */
+    }
+
+    .input-group {
+      margin-bottom: 22px; /* Increased space */
+      text-align: left;
+      position: relative; /* For animations/icons */
+    }
+
+    .input-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 0.9em; /* Refined label size */
+        color: #666; /* Softer label color */
+        font-weight: 600;
+        transition: color 0.3s ease;
+    }
+
+    .login-form-side input[type="text"],
+    .login-form-side input[type="password"] {
+      width: 100%;
+      padding: 14px 18px; /* More padding */
+      border: 1px solid #dcdcdc; /* Even lighter border */
+      border-radius: 10px; /* More rounded */
+      font-size: 1.05em; /* Slightly larger input font */
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      box-sizing: border-box;
+      background-color: #fcfcfc; /* Subtle off-white input background */
+    }
+
+    .login-form-side input:focus {
+      border-color: #D52B1E;
+      outline: none;
+      box-shadow: 0 0 0 4px rgba(213, 43, 30, 0.15); /* More prominent, softer glow */
+      background-color: white; /* White on focus */
+    }
+
+    .login-form-side button {
+      width: 100%;
+      background: #D52B1E;
+      color: white;
+      padding: 16px 25px; /* Larger, more inviting button */
+      border: none;
+      border-radius: 10px; /* More rounded button */
+      cursor: pointer;
+      font-size: 1.2em; /* Larger button font */
+      font-weight: bold;
+      margin-top: 25px; /* More space */
+      transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+      letter-spacing: 0.5px;
+    }
+
+    .login-form-side button:hover {
+      background: #B12418;
+      transform: translateY(-2px); /* More noticeable lift */
+      box-shadow: 0 6px 15px rgba(0,0,0,0.2); /* Stronger shadow on hover */
+    }
+
+    .login-form-side button:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    #message {
+      text-align: center;
+      margin-top: 20px; /* More space */
+      font-size: 0.98em;
+      font-weight: 600;
+      min-height: 20px; /* To prevent layout shift */
+    }
+
+    .link-group {
+        margin-top: 30px; /* More space below form */
+        width: 100%;
+        max-width: 350px;
+    }
+
+    .login-form-side .forgot-password,
+    .login-form-side .register-link {
+        display: block;
+        margin-bottom: 12px; /* Space between links */
+        font-size: 0.92em; /* Refined link size */
+        color: #D52B1E;
+        text-decoration: none;
+        transition: color 0.2s ease, text-decoration 0.2s ease;
+        padding: 5px 0; /* Add padding for click area */
+    }
+
+    .login-form-side .register-link {
+        font-weight: 700; /* Even bolder register link */
+    }
+
+    .login-form-side .forgot-password:hover,
+    .login-form-side .register-link:hover {
+        color: #8C1B13; /* Darker red on hover */
+        text-decoration: underline;
+    }
+
+    /* Footer */
+    footer {
+      background: #D52B1E;
+      color: white;
+      text-align: center;
+      padding: 25px; /* More generous padding */
+      box-shadow: 0 -4px 8px rgba(0,0,0,0.15); /* More pronounced footer shadow */
+      margin-top: auto;
+      z-index: 10;
+    }
+
+    /* Animations */
+    @keyframes fadeInScale {
+      from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 850px) {
+      .login-wrapper {
+        flex-direction: column;
+        box-shadow: none; /* Remove box-shadow to be clean on smaller screens */
+        border-radius: 0;
+      }
+      .login-illustration-side {
+        min-height: 250px; /* Slightly taller */
+        border-radius: 12px 12px 0 0; /* Only top corners rounded */
+        font-size: 1.8em; /* Adjusted text size */
+      }
+      .login-illustration-side .illustration-subtitle {
+          max-width: 90%;
+      }
+      .login-form-side {
+        padding: 35px 25px; /* Adjust padding */
+        border-radius: 0 0 12px 12px; /* Only bottom corners rounded */
+      }
+      .login-form-side h2 {
+        font-size: 2em;
+      }
+    }
+
+    @media (max-width: 550px) {
+      header {
+        padding: 15px 10px;
+      }
+      header img {
+        height: 35px;
+        left: 10px;
+      }
+      header h1 {
+        font-size: 1.5em;
+      }
+      header p {
+        font-size: 0.8em;
+      }
+      nav a {
+        padding: 10px 12px;
+        font-size: 0.9em;
+      }
+      .main-content-area {
+        padding: 30px 10px;
+      }
+      .login-form-side {
+        padding: 30px 20px;
+      }
+      .login-form-side h2 {
+        font-size: 1.8em;
+        margin-bottom: 20px;
+      }
+      .login-form-side input {
+        padding: 12px 15px;
+      }
+      .login-form-side button {
+        padding: 14px 20px;
+        font-size: 1em;
+      }
+      .login-illustration-side {
+          font-size: 1.5em;
+          min-height: 200px;
+      }
+      .login-illustration-side .illustration-title {
+          font-size: 1.8em;
+      }
+      .login-illustration-side .illustration-subtitle {
+          font-size: 1em;
+      }
+    }
+  </style>
+  </head>
+<body>
+
+  <header>
+    <img src="assets/imgx/Impulsa.jpeg" alt="Logo Impulsa+UTP">
+    <div style="text-align: center;">
+      <h1 style="margin: 0;">Impulsa+UTP</h1>
+      <p style="margin: 0;">Una plataforma para conectar estudiantes y profesores en proyectos colaborativos</p>
+    </div>
+  </header>
+
+  <nav>
+    <a href="home.html">Home</a>
+    <a href="index.html">Feed</a>
+    <a href="login.html">Login</a>
+  </nav>
+
+  <div class="main-content-area">
+    <div class="login-wrapper">
+      <div class="login-illustration-side">
+        <div class="illustration-title">Bienvenido a Impulsa+UTP</div>
+        <div class="illustration-subtitle">Conéctate y forma parte de nuestra comunidad innovadora. ¡Juntos creamos el futuro!</div>
+      </div>
+      <div class="login-form-side">
+        <h2>Accede a tu Cuenta</h2>
+        <form onsubmit="return login(event)">
+          <div class="input-group">
+            <label for="username">Usuario o Correo UTP</label>
+            <input type="text" id="username" placeholder="tu.correo@utp.edu.pe" required autocomplete="username">
+          </div>
+          <div class="input-group">
+            <label for="password">Contraseña</label>
+            <input type="password" id="password" placeholder="••••••••" required autocomplete="current-password">
+          </div>
+          <button type="submit">Entrar</button>
+        </form>
+        <p id="message"></p>
+        <div class="link-group">
+            <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
+            <a href="registro_alumno.html" class="register-link">¿No tienes cuenta? Regístrate aquí</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Impulsa+UTP. Todos los derechos reservados.</p>
+  </footer>
+
+  <script>
+    function login(event) {
+      event.preventDefault(); // Prevent default form submission
+
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      const message = document.getElementById("message");
+
+      // Reset message
+      message.textContent = "";
+      message.style.color = "";
+
+      // Basic validation for demonstration purposes
+      if (username === "admin" && password === "1234") {
+        message.style.color = "#28a745"; // Green for success
+        message.textContent = "Inicio de sesión exitoso. Redirigiendo...";
+        setTimeout(() => {
+          window.location.href = "index.html"; // Redirect to home page or dashboard
+        }, 1500);
+      } else {
+        message.style.color = "#D52B1E"; // Red for error
+        message.textContent = "Usuario o contraseña incorrectos.";
+      }
+
+      return false; // Prevent form from submitting
+    }
+  </script>
+</body>
+</html>
