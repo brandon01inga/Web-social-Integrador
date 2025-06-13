@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Impulsa+UTP - Inicio</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4; /* Light gray for body background */
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh; /* Ensure full viewport height */
+    }
+
+    header {
+      background: #D52B1E; /* Primary red */
+      color: white;
+      padding: 20px 60px;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    header img {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 50px;
+    }
+
+    nav {
+      background: #B12418; /* Darker red for navigation */
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    nav a {
+      color: white;
+      padding: 14px 20px;
+      display: inline-block;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      background: #8C1B13;
+    }
+
+    .main-container {
+      flex-grow: 1; /* Allows this section to take up available space */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+      max-width: 1200px; /* Wider container for the main content */
+      margin: 0 auto;
+    }
+
+    /* Hero Section - Mimicking LinkedIn's left-text, right-image layout */
+    .hero-section {
+      display: flex;
+      flex-wrap: wrap; /* Allow wrapping on smaller screens */
+      justify-content: space-between;
+      align-items: center;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      padding: 40px;
+      width: 100%;
+      margin-bottom: 40px; /* Space before the next section */
+    }
+
+    .hero-content {
+      flex: 1;
+      min-width: 300px; /* Minimum width before wrapping */
+      max-width: 55%; /* Allocate more space to text */
+      text-align: left;
+      padding-right: 30px; /* Space between text and image */
+    }
+
+    .hero-content h2 {
+      font-size: 2.8em;
+      color: #D52B1E; /* Red headline */
+      margin-bottom: 20px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .hero-content p {
+      font-size: 1.1em;
+      color: #555;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-direction: column; /* Stack buttons vertically */
+      gap: 15px; /* Space between buttons */
+    }
+
+    .hero-buttons .btn-primary,
+    .hero-buttons .btn-secondary {
+      width: 100%; /* Make buttons full width in their container */
+      padding: 15px 25px;
+      border-radius: 8px;
+      font-size: 1.1em;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.3s ease, transform 0.2s ease, border-color 0.3s ease;
+      display: inline-block;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .hero-buttons .btn-primary {
+      background: #D52B1E;
+      color: white;
+      border: none;
+    }
+
+    .hero-buttons .btn-primary:hover {
+      background: #B12418;
+      transform: translateY(-2px);
+    }
+
+    .hero-buttons .btn-secondary {
+      background: white;
+      color: #D52B1E; /* Red text for secondary button */
+      border: 1px solid #D52B1E; /* Red border for secondary button */
+    }
+
+    .hero-buttons .btn-secondary:hover {
+      background: #F0F2F5; /* Light grey hover */
+      transform: translateY(-2px);
+    }
+
+    .hero-image-side {
+      flex: 1;
+      min-width: 300px; /* Minimum width for image before wrapping */
+      text-align: center;
+      padding-left: 30px; /* Space between image and text */
+    }
+
+    .hero-image {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+
+    /* Explore Section - Mimicking "Echa un vistazo a los artículos colaborativos" */
+    .explore-section {
+      background: white; /* White background */
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      padding: 40px;
+      width: 100%;
+      text-align: left;
+    }
+
+    .explore-section h3 {
+      font-size: 1.8em;
+      color: #333;
+      margin-bottom: 25px;
+      font-weight: 600;
+    }
+
+    .explore-tags {
+      display: flex;
+      flex-wrap: wrap; /* Allow tags to wrap */
+      gap: 10px; /* Space between tags */
+    }
+
+    .tag-button {
+      background: #f0f2f5; /* Light grey background for tags */
+      color: #555;
+      padding: 8px 15px;
+      border: 1px solid #ddd;
+      border-radius: 20px; /* Pill shape */
+      font-size: 0.95em;
+      cursor: pointer;
+      transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    }
+
+    .tag-button:hover {
+      background: #D52B1E; /* Red background on hover */
+      color: white;
+      border-color: #D52B1E;
+    }
+
+    footer {
+      background: #D52B1E; /* Primary red footer */
+      color: white;
+      text-align: center;
+      padding: 20px;
+      box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+      margin-top: auto; /* Push footer to the bottom */
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 992px) {
+      .hero-section {
+        flex-direction: column; /* Stack image and text */
+        padding: 30px;
+      }
+      .hero-content, .hero-image-side {
+        max-width: 100%;
+        padding: 0; /* Remove horizontal padding */
+      }
+      .hero-image-side {
+        margin-top: 30px; /* Space between text and image when stacked */
+      }
+      .hero-content h2 {
+        font-size: 2.2em;
+      }
+      .hero-content p {
+        font-size: 1em;
+      }
+      .explore-section {
+        padding: 30px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      header {
+        padding: 15px 20px;
+      }
+      header img {
+        height: 40px;
+        left: 10px;
+      }
+      nav a {
+        padding: 10px 15px;
+      }
+      .main-container {
+        padding: 20px 10px;
+      }
+      .hero-section {
+        padding: 20px;
+      }
+      .hero-content h2 {
+        font-size: 1.8em;
+      }
+      .hero-content p {
+        font-size: 0.9em;
+      }
+      .hero-buttons .btn-primary, .hero-buttons .btn-secondary {
+        font-size: 1em;
+        padding: 12px 20px;
+      }
+      .explore-section h3 {
+        font-size: 1.5em;
+      }
+      .tag-button {
+        padding: 6px 12px;
+        font-size: 0.85em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="assets/imgx/Impulsa.jpeg" alt="Logo Impulsa+UTP">
+
+    <div style="text-align: center;">
+      <h1 style="margin: 0;">Impulsa+UTP</h1>
+      <p style="margin: 0;">Una plataforma para conectar estudiantes y profesores en proyectos colaborativos</p>
+    </div>
+  </header>
+
+  <nav>
+    <a href="home.html">Home</a>
+    <a href="index.html">Feed</a>
+    <a href="login.html">Login</a>
+  </nav>
+
+  <div class="main-container">
+    <section class="hero-section">
+      <div class="hero-content">
+        <h2>¡Te damos la bienvenida a tu comunidad colaborativa profesional!</h2>
+        <p>Conecta con docentes, otros estudiantes y expertos, gestiona proyectos innovadores y eleva tu perfil académico y profesional. Impulsa+UTP es el ecosistema ideal para tu crecimiento.</p>
+        <div class="hero-buttons">
+          <a href="login.html" class="btn-primary">Inicia con tu Correo UTP</a>
+          <a href="#" class="btn-secondary">Ya tengo una cuenta</a> </div>
+      </div>
+      <div class="hero-image-side">
+        <img src="assets/imgx/s1.jpg" alt="Ilustración de colaboración" class="hero-image">
+      </div>
+    </section>
+
+    <section class="explore-section">
+      <h3>Echa un vistazo a los proyectos e iniciativas colaborativas:</h3>
+      <div class="explore-tags">
+        <button class="tag-button">Inteligencia Artificial</button>
+        <button class="tag-button">Desarrollo Web</button>
+        <button class="tag-button">Realidad Virtual</button>
+        <button class="tag-button">Ciberseguridad</button>
+        <button class="tag-button">Data Science</button>
+        <button class="tag-button">Emprendimiento</button>
+        <button class="tag-button">Robótica</button>
+        <button class="tag-button">Ingeniería de Software</button>
+        <button class="tag-button">Diseño UX/UI</button>
+        <button class="tag-button">Automatización</button>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Impulsa+UTP. Todos los derechos reservados.</p>
+  </footer>
+
+</body>
+</html>

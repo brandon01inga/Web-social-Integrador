@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mensajes - impulsa+UPT</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        background-color: #f9fafb;
+        color: #374151;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      /* Header */
+      .header {
+        background: white;
+        border-bottom: 1px solid #e5e7eb;
+        padding: 12px 16px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      .header-content {
+        max-width: 1280px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      /* NUEVO: Logo impulsa+UTP */
+      .logo-container {
+        display: flex;
+        align-items: center;
+        margin-right: 24px;
+      }
+
+      .logo {
+        height: 32px;
+        width: auto;
+      }
+
+      .search-container {
+        flex: 1;
+        max-width: 384px;
+        position: relative;
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 8px 12px 8px 40px;
+        background: #f3f4f6;
+        border: none;
+        border-radius: 8px;
+        font-size: 14px;
+      }
+
+      .search-icon {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #9ca3af;
+      }
+
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .icon-button {
+        color: #6b7280;
+        cursor: pointer;
+        padding: 8px;
+        border-radius: 8px;
+        transition: all 0.2s;
+        position: relative;
+      }
+
+      .icon-button:hover {
+        background: #f3f4f6;
+      }
+
+      /* NUEVO: Badge de notificaciones */
+      .notification-badge {
+        position: absolute;
+        top: 4px;
+        right: 4px;
+        background: #dc2626;
+        color: white;
+        border-radius: 50%;
+        width: 16px;
+        height: 16px;
+        font-size: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+      }
+
+      /* MODIFICADO: Avatar con foto real */
+      .avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        overflow: hidden;
+        cursor: pointer;
+        border: 2px solid #e5e7eb;
+        transition: border-color 0.2s;
+      }
+
+      .avatar:hover {
+        border-color: #dc2626;
+      }
+
+      .avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      /* Main Layout */
+      .main-container {
+        display: flex;
+        height: calc(100vh - 64px);
+        max-width: 1280px;
+        margin: 0 auto;
+      }
+
+      /* Left Sidebar */
+      .left-sidebar {
+        width: 256px;
+        background: white;
+        border-right: 1px solid #e5e7eb;
+        display: flex;
+        flex-direction: column;
+        padding: 16px 0;
+      }
+
+      .nav-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        padding: 0 16px;
+      }
+
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        border-radius: 8px;
+        text-decoration: none;
+        color: #374151;
+        transition: all 0.2s;
+      }
+
+      .nav-item:hover {
+        background: #f9fafb;
+      }
+
+      .nav-item.active {
+        background: #fef2f2;
+        color: #dc2626;
+        font-weight: 500;
+      }
+
+      /* NUEVO: Iconos específicos para navegación */
+      .nav-icon {
+        width: 20px;
+        height: 20px;
+        fill: currentColor;
+      }
+
+      .profile-section {
+        margin-top: auto;
+        padding: 16px;
+        border-top: 1px solid #e5e7eb;
+      }
+
+      .profile-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        cursor: pointer;
+        padding: 8px;
+        border-radius: 8px;
+        transition: background-color 0.2s;
+      }
+
+      .profile-info:hover {
+        background: #f9fafb;
+      }
+
+      /* MODIFICADO: Avatar del perfil con foto real */
+      .profile-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 2px solid #e5e7eb;
+      }
+
+      .profile-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .profile-name {
+        font-weight: 500;
+        color: #111827;
+      }
+
+      .profile-link {
+        font-size: 14px;
+        color: #6b7280;
+      }
+
+      /* Chat Layout */
+      .chat-container {
+        flex: 1;
+        display: flex;
+        height: 100%;
+      }
+
+      /* Conversations List */
+      .conversations-panel {
+        width: 320px;
+        background: white;
+        border-right: 1px solid #e5e7eb;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .conversations-header {
+        padding: 20px;
+        border-bottom: 1px solid #e5e7eb;
+      }
+
+      .conversations-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: #111827;
+        margin-bottom: 16px;
+      }
+
+      .conversations-search {
+        position: relative;
+      }
+
+      .conversations-search-input {
+        width: 100%;
+        padding: 8px 12px;
+        background: #f3f4f6;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        font-size: 14px;
+      }
+
+      .conversations-search-input:focus {
+        outline: none;
+        border-color: #dc2626;
+      }
+
+      .conversations-list {
+        flex: 1;
+        overflow-y: auto;
+      }
+
+      .conversation-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 20px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        border-bottom: 1px solid #f3f4f6;
+      }
+
+      .conversation-item:hover {
+        background: #f9fafb;
+      }
+
+      .conversation-item.active {
+        background: #fef2f2;
+        border-left: 3px solid #dc2626;
+      }
+
+      /* MODIFICADO: Avatar de conversación con foto real */
+      .conversation-avatar {
+        position: relative;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        overflow: hidden;
+        flex-shrink: 0;
+        border: 2px solid #e5e7eb;
+      }
+
+      .conversation-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .online-indicator {
+        position: absolute;
+        bottom: 2px;
+        right: 2px;
+        width: 12px;
+        height: 12px;
+        background: #10b981;
+        border: 2px solid white;
+        border-radius: 50%;
+      }
+
+      .conversation-info {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .conversation-name {
+        font-weight: 600;
+        color: #111827;
+        margin-bottom: 2px;
+      }
+
+      .conversation-preview {
+        font-size: 14px;
+        color: #6b7280;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .conversation-time {
+        font-size: 12px;
+        color: #9ca3af;
+        flex-shrink: 0;
+      }
+
+      /* NUEVO: Indicador de mensajes no leídos */
+      .unread-badge {
+        background: #dc2626;
+        color: white;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        margin-left: 8px;
+      }
+
+      /* Chat Window */
+      .chat-window {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        background: white;
+      }
+
+      .chat-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 16px 20px;
+        border-bottom: 1px solid #e5e7eb;
+        background: #fafafa;
+      }
+
+      /* MODIFICADO: Avatar del chat con foto real */
+      .chat-user-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 2px solid #e5e7eb;
+      }
+
+      .chat-user-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .chat-user-info h3 {
+        font-weight: 600;
+        color: #111827;
+      }
+
+      .chat-user-status {
+        font-size: 14px;
+        color: #10b981;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .status-dot {
+        width: 8px;
+        height: 8px;
+        background: #10b981;
+        border-radius: 50%;
+      }
+
+      .chat-messages {
+        flex: 1;
+        padding: 20px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        background: #f9fafb;
+      }
+
+      .message {
+        display: flex;
+        flex-direction: column;
+        max-width: 70%;
+      }
+
+      .message.sent {
+        align-self: flex-end;
+        align-items: flex-end;
+      }
+
+      .message.received {
+        align-self: flex-start;
+        align-items: flex-start;
+      }
+
+      .message-bubble {
+        padding: 12px 16px;
+        border-radius: 18px;
+        word-wrap: break-word;
+        margin-bottom: 4px;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      }
+
+      .message.sent .message-bubble {
+        background: #dc2626;
+        color: white;
+      }
+
+      .message.received .message-bubble {
+        background: white;
+        color: #374151;
+        border: 1px solid #e5e7eb;
+      }
+
+      .message-time {
+        font-size: 12px;
+        color: #9ca3af;
+        margin-top: 4px;
+      }
+
+      .chat-input-container {
+        padding: 16px 20px;
+        border-top: 1px solid #e5e7eb;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: white;
+      }
+
+      .chat-input {
+        flex: 1;
+        padding: 12px 16px;
+        border: 1px solid #e5e7eb;
+        border-radius: 24px;
+        font-size: 14px;
+        resize: none;
+        outline: none;
+        transition: border-color 0.2s;
+      }
+
+      .chat-input:focus {
+        border-color: #dc2626;
+      }
+
+      .send-button {
+        width: 40px;
+        height: 40px;
+        background: #dc2626;
+        border: none;
+        border-radius: 50%;
+        color: white;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+      }
+
+      .send-button:hover {
+        background: #b91c1c;
+        transform: scale(1.05);
+      }
+
+      .send-button:disabled {
+        background: #9ca3af;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      /* Icons */
+      .icon {
+        width: 20px;
+        height: 20px;
+        fill: currentColor;
+      }
+
+      .icon-sm {
+        width: 16px;
+        height: 16px;
+        fill: currentColor;
+      }
+
+      /* NUEVO: Estado de escritura */
+      .typing-indicator {
+        display: none;
+        padding: 8px 16px;
+        color: #6b7280;
+        font-style: italic;
+        font-size: 14px;
+      }
+
+      .typing-indicator.show {
+        display: block;
+      }
+
+      /* Responsive */
+      @media (max-width: 1024px) {
+        .left-sidebar {
+          width: 200px;
+        }
+
+        .conversations-panel {
+          width: 280px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .left-sidebar {
+          display: none;
+        }
+
+        .conversations-panel {
+          width: 100%;
+          max-width: 320px;
+        }
+
+        .message {
+          max-width: 85%;
+        }
+
+        .logo {
+          height: 28px;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .main-container {
+          flex-direction: column;
+        }
+
+        .conversations-panel {
+          width: 100%;
+          height: 40%;
+          max-width: none;
+        }
+
+        .chat-window {
+          height: 60%;
+        }
+
+        .header-content {
+          flex-wrap: wrap;
+          gap: 12px;
+        }
+
+        .search-container {
+          order: 3;
+          flex-basis: 100%;
+          max-width: none;
+        }
+      }
+
+      /* NUEVO: Animaciones */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .message {
+        animation: fadeIn 0.3s ease-out;
+      }
+
+      .conversation-item {
+        animation: fadeIn 0.2s ease-out;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <!-- NUEVO: Logo impulsa+UTP -->
+        <div class="logo-container">
+          <img
+            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-CawNaA2EeAyiT6Ufy6YCOW6LObOPW0.png"
+            alt="impulsa+UTP"
+            class="logo"
+          />
+        </div>
+
+        <div class="search-container">
+          <svg class="search-icon icon-sm" viewBox="0 0 20 20">
+            <path
+              fill-rule="evenodd"
+              d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+          <input
+            type="text"
+            class="search-input"
+            placeholder="Buscar en impulsa+UPT..."
+          />
+        </div>
+
+        <div class="header-actions">
+          <!-- MODIFICADO: Icono de notificaciones con badge -->
+          <div class="icon-button">
+            <svg class="icon" viewBox="0 0 24 24">
+              <path
+                d="M12 2C13.1 2 14 2.9 14 4V5.08C16.39 5.57 18 7.47 18 10V16L20 18V19H4V18L6 16V10C6 7.47 7.61 5.57 10 5.08V4C10 2.9 10.9 2 12 2ZM10 21C10 22.1 10.9 23 12 23S14 22.1 14 21"
+              />
+            </svg>
+            <span class="notification-badge">5</span>
+          </div>
+
+          <!-- MODIFICADO: Icono de mensajes -->
+          <div class="icon-button">
+            <svg class="icon" viewBox="0 0 24 24">
+              <path
+                d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM6 9H18V11H6V9ZM14 14H6V12H14V14ZM18 8H6V6H18V8Z"
+              />
+            </svg>
+          </div>
+
+          <!-- MODIFICADO: Avatar con foto real -->
+          <div class="avatar">
+            <img src="img/user-perfil.png" alt="Brandon Inga" />
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+      <!-- Left Sidebar -->
+      <aside class="left-sidebar">
+        <nav>
+          <ul class="nav-list">
+            <li>
+              <a href="publicaciones.html" class="nav-item">
+                <!-- NUEVO: Icono de casa para Inicio -->
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                  <path d="M10 20V14H14V20H19V12H22L12 3L2 12H5V20H10Z" />
+                </svg>
+                <span>Inicio</span>
+              </a>
+            </li>
+            <li>
+              <a href="amigos.html" class="nav-item">
+                <!-- NUEVO: Icono de personas para Amigos -->
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                  <path
+                    d="M16 4C18.2 4 20 5.8 20 8S18.2 12 16 12 12 10.2 12 8 13.8 4 16 4ZM8 4C10.2 4 12 5.8 12 8S10.2 12 8 12 4 10.2 4 8 5.8 4 8 4ZM8 14C5.8 14 1 15.1 1 17.3V20H15V17.3C15 15.1 10.2 14 8 14ZM16 14C15.7 14 15.4 14 15.1 14.1C16.2 14.8 17 15.9 17 17.3V20H23V17.3C23 15.1 18.2 14 16 14Z"
+                  />
+                </svg>
+                <span>Amigos</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-item">
+                <!-- NUEVO: Icono de páginas -->
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                  <path
+                    d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM5 19V5H19V19H5ZM7 7H17V9H7V7ZM7 11H17V13H7V11ZM7 15H14V17H7V15Z"
+                  />
+                </svg>
+                <span>Páginas</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-item">
+                <!-- NUEVO: Icono de campana para Notificaciones -->
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                  <path
+                    d="M12 2C13.1 2 14 2.9 14 4V5.08C16.39 5.57 18 7.47 18 10V16L20 18V19H4V18L6 16V10C6 7.47 7.61 5.57 10 5.08V4C10 2.9 10.9 2 12 2ZM10 21C10 22.1 10.9 23 12 23S14 22.1 14 21"
+                  />
+                </svg>
+                <span>Notificaciones</span>
+              </a>
+            </li>
+            <li>
+              <a href="chat.html" class="nav-item active">
+                <!-- NUEVO: Icono de chat para Mensajes -->
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                  <path
+                    d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM6 9H18V11H6V9ZM14 14H6V12H14V14ZM18 8H6V6H18V8Z"
+                  />
+                </svg>
+                <span>Mensajes</span>
+              </a>
+            </li>
+            <li>
+              <a href="perfil.html" class="nav-item">
+                <!-- NUEVO: Icono de persona para Perfil -->
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                  <path
+                    d="M12 12C14.21 12 16 10.21 16 8S14.21 4 12 4 8 5.79 8 8 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z"
+                  />
+                </svg>
+                <span>Perfil</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+        <div class="profile-section">
+          <div class="profile-info">
+            <!-- MODIFICADO: Avatar con foto real -->
+            <div class="profile-avatar">
+              <img src="img/user-perfil.png" alt="Brandon Inga" />
+            </div>
+            <div>
+              <div class="profile-name">Brandon Inga</div>
+              <div class="profile-link">Ver perfil</div>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Chat Container -->
+      <div class="chat-container">
+        <!-- Conversations Panel -->
+        <div class="conversations-panel">
+          <div class="conversations-header">
+            <h2 class="conversations-title">Mensajes</h2>
+            <div class="conversations-search">
+              <input
+                type="text"
+                class="conversations-search-input"
+                placeholder="Buscar conversaciones..."
+                id="searchConversations"
+              />
+            </div>
+          </div>
+
+          <div class="conversations-list" id="conversationsList">
+            <div class="conversation-item active" data-user="maria">
+              <!-- MODIFICADO: Avatar con foto real -->
+              <div class="conversation-avatar">
+                <img
+                  src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face"
+                  alt="María López"
+                />
+                <div class="online-indicator"></div>
+              </div>
+              <div class="conversation-info">
+                <div class="conversation-name">María López</div>
+                <div class="conversation-preview">¿Cómo va tu proyecto?</div>
+              </div>
+              <div class="conversation-time">10:30 AM</div>
+              <div class="unread-badge">2</div>
+            </div>
+
+            <div class="conversation-item" data-user="carlos">
+              <div class="conversation-avatar">
+                <img
+                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"
+                  alt="Carlos Mendoza"
+                />
+              </div>
+              <div class="conversation-info">
+                <div class="conversation-name">Carlos Mendoza</div>
+                <div class="conversation-preview">
+                  Nos vemos en la biblioteca
+                </div>
+              </div>
+              <div class="conversation-time">Ayer</div>
+            </div>
+
+            <div class="conversation-item" data-user="ana">
+              <div class="conversation-avatar">
+                <img
+                  src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face"
+                  alt="Ana García"
+                />
+                <div class="online-indicator"></div>
+              </div>
+              <div class="conversation-info">
+                <div class="conversation-name">Ana García</div>
+                <div class="conversation-preview">¡Gracias por la ayuda!</div>
+              </div>
+              <div class="conversation-time">Lun</div>
+            </div>
+
+            <div class="conversation-item" data-user="roberto">
+              <div class="conversation-avatar">
+                <img
+                  src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face"
+                  alt="Roberto Díaz"
+                />
+                <div class="online-indicator"></div>
+              </div>
+              <div class="conversation-info">
+                <div class="conversation-name">Roberto Díaz</div>
+                <div class="conversation-preview">¿Tienes los apuntes?</div>
+              </div>
+              <div class="conversation-time">Dom</div>
+            </div>
+
+            <div class="conversation-item" data-user="laura">
+              <div class="conversation-avatar">
+                <img
+                  src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face"
+                  alt="Laura Vega"
+                />
+              </div>
+              <div class="conversation-info">
+                <div class="conversation-name">Laura Vega</div>
+                <div class="conversation-preview">Vamos a reunirnos mañana</div>
+              </div>
+              <div class="conversation-time">15:05</div>
+              <div class="unread-badge">1</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chat Window -->
+        <div class="chat-window">
+          <div class="chat-header">
+            <!-- MODIFICADO: Avatar con foto real -->
+            <div class="chat-user-avatar">
+              <img
+                src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face"
+                alt="María López"
+              />
+            </div>
+            <div class="chat-user-info">
+              <h3>María López</h3>
+              <div class="chat-user-status">
+                <div class="status-dot"></div>
+                En línea
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-messages" id="chatMessages">
+            <div class="message sent">
+              <div class="message-bubble">Hola María, ¿cómo estás?</div>
+              <div class="message-time">10:15 AM</div>
+            </div>
+
+            <div class="message received">
+              <div class="message-bubble">
+                ¡Hola! Estoy bien, gracias. ¿Y tú?
+              </div>
+              <div class="message-time">10:17 AM</div>
+            </div>
+
+            <div class="message sent">
+              <div class="message-bubble">
+                Bien también. ¿Cómo va tu proyecto?
+              </div>
+              <div class="message-time">10:18 AM</div>
+            </div>
+
+            <div class="message received">
+              <div class="message-bubble">
+                Avanzando poco a poco. Estoy terminando la parte de
+                investigación.
+              </div>
+              <div class="message-time">10:20 AM</div>
+            </div>
+
+            <div class="message sent">
+              <div class="message-bubble">¿Necesitas ayuda con algo?</div>
+              <div class="message-time">10:25 AM</div>
+            </div>
+
+            <div class="message received">
+              <div class="message-bubble">¿Cómo va tu proyecto?</div>
+              <div class="message-time">10:30 AM</div>
+            </div>
+          </div>
+
+          <!-- NUEVO: Indicador de escritura -->
+          <div class="typing-indicator" id="typingIndicator">
+            María está escribiendo...
+          </div>
+
+          <div class="chat-input-container">
+            <input
+              type="text"
+              class="chat-input"
+              placeholder="Escribe un mensaje..."
+              id="messageInput"
+            />
+            <button class="send-button" id="sendButton">
+              <svg class="icon-sm" viewBox="0 0 24 24">
+                <path d="M2.01 21L23 12L2.01 3L2 10L17 12L2 14L2.01 21Z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Referencias a elementos del DOM
+      const messageInput = document.getElementById("messageInput");
+      const sendButton = document.getElementById("sendButton");
+      const chatMessages = document.getElementById("chatMessages");
+      const conversationItems = document.querySelectorAll(".conversation-item");
+      const searchInput = document.getElementById("searchConversations");
+      const typingIndicator = document.getElementById("typingIndicator");
+
+      // Función para enviar mensaje
+      function sendMessage() {
+        const messageText = messageInput.value.trim();
+        if (messageText) {
+          // Crear elemento de mensaje
+          const messageDiv = document.createElement("div");
+          messageDiv.className = "message sent";
+
+          const now = new Date();
+          const timeString = now.toLocaleTimeString("es-ES", {
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+
+          messageDiv.innerHTML = `
+                    <div class="message-bubble">${messageText}</div>
+                    <div class="message-time">${timeString}</div>
+                `;
+
+          // Agregar mensaje al chat
+          chatMessages.appendChild(messageDiv);
+
+          // Limpiar input
+          messageInput.value = "";
+
+          // Scroll al final
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+
+          // Simular respuesta automática después de 2 segundos
+          setTimeout(() => {
+            simulateResponse();
+          }, 2000);
+        }
+      }
+
+      // Función para simular respuesta
+      function simulateResponse() {
+        const responses = [
+          "¡Perfecto! Me parece una excelente idea.",
+          "Claro, podemos coordinar eso.",
+          "¿A qué hora te viene mejor?",
+          "Genial, nos vemos entonces.",
+          "¡Muchas gracias por tu ayuda!",
+        ];
+
+        const randomResponse =
+          responses[Math.floor(Math.random() * responses.length)];
+
+        const messageDiv = document.createElement("div");
+        messageDiv.className = "message received";
+
+        const now = new Date();
+        const timeString = now.toLocaleTimeString("es-ES", {
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+
+        messageDiv.innerHTML = `
+                <div class="message-bubble">${randomResponse}</div>
+                <div class="message-time">${timeString}</div>
+            `;
+
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+
+      // Event listeners
+      sendButton.addEventListener("click", sendMessage);
+
+      messageInput.addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          sendMessage();
+        }
+      });
+
+      // Funcionalidad de búsqueda de conversaciones
+      searchInput.addEventListener("input", function () {
+        const searchTerm = this.value.toLowerCase();
+        conversationItems.forEach((item) => {
+          const name = item
+            .querySelector(".conversation-name")
+            .textContent.toLowerCase();
+          const preview = item
+            .querySelector(".conversation-preview")
+            .textContent.toLowerCase();
+
+          if (name.includes(searchTerm) || preview.includes(searchTerm)) {
+            item.style.display = "flex";
+          } else {
+            item.style.display = "none";
+          }
+        });
+      });
+
+      // Cambiar conversación activa
+      conversationItems.forEach((item) => {
+        item.addEventListener("click", function () {
+          // Remover clase active de todos los items
+          conversationItems.forEach((i) => i.classList.remove("active"));
+
+          // Agregar clase active al item clickeado
+          this.classList.add("active");
+
+          // Remover badge de no leídos
+          const badge = this.querySelector(".unread-badge");
+          if (badge) {
+            badge.remove();
+          }
+
+          // Actualizar header del chat
+          const userName = this.querySelector(".conversation-name").textContent;
+          const userAvatar = this.querySelector(".conversation-avatar img").src;
+
+          document.querySelector(".chat-user-info h3").textContent = userName;
+          document.querySelector(".chat-user-avatar img").src = userAvatar;
+
+          // Limpiar mensajes (en una app real, cargarías los mensajes de esa conversación)
+          chatMessages.innerHTML = `
+                    <div class="message received">
+                        <div class="message-bubble">¡Hola! ¿Cómo estás?</div>
+                        <div class="message-time">Ahora</div>
+                    </div>
+                `;
+        });
+      });
+
+      // Simular indicador de escritura
+      let typingTimeout;
+      messageInput.addEventListener("input", function () {
+        // Mostrar indicador de escritura
+        typingIndicator.classList.add("show");
+
+        // Ocultar después de 2 segundos de inactividad
+        clearTimeout(typingTimeout);
+        typingTimeout = setTimeout(() => {
+          typingIndicator.classList.remove("show");
+        }, 2000);
+      });
+
+      // Habilitar/deshabilitar botón de envío
+      messageInput.addEventListener("input", function () {
+        sendButton.disabled = this.value.trim() === "";
+      });
+
+      // Inicializar estado del botón
+      sendButton.disabled = true;
+
+      // Auto-scroll al cargar la página
+      window.addEventListener("load", function () {
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      });
+    </script>
+  </body>
+</html>

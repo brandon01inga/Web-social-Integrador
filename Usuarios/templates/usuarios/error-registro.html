@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Error de Verificación | impulsa+UTP</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        background: linear-gradient(
+          135deg,
+          #991b1b 0%,
+          #dc2626 50%,
+          #ef4444 100%
+        );
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      /* Animated Background */
+      .animated-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      .floating-icon {
+        position: absolute;
+        animation: floatSlow 8s ease-in-out infinite;
+        opacity: 0.1;
+        font-size: 24px;
+        color: white;
+      }
+
+      .floating-icon:nth-child(1) {
+        top: 10%;
+        left: 10%;
+        animation-delay: 0s;
+      }
+      .floating-icon:nth-child(2) {
+        top: 20%;
+        right: 15%;
+        animation-delay: 2s;
+      }
+      .floating-icon:nth-child(3) {
+        bottom: 30%;
+        left: 20%;
+        animation-delay: 4s;
+      }
+      .floating-icon:nth-child(4) {
+        bottom: 20%;
+        right: 10%;
+        animation-delay: 6s;
+      }
+      .floating-icon:nth-child(5) {
+        top: 50%;
+        left: 5%;
+        animation-delay: 1s;
+      }
+      .floating-icon:nth-child(6) {
+        top: 60%;
+        right: 5%;
+        animation-delay: 3s;
+      }
+
+      @keyframes floatSlow {
+        0%,
+        100% {
+          transform: translateY(0px) rotate(0deg);
+        }
+        25% {
+          transform: translateY(-15px) rotate(90deg);
+        }
+        50% {
+          transform: translateY(-30px) rotate(180deg);
+        }
+        75% {
+          transform: translateY(-15px) rotate(270deg);
+        }
+      }
+
+      /* Main Container */
+      .container {
+        position: relative;
+        z-index: 2;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      /* Logo Section */
+      .logo-section {
+        text-align: center;
+        margin-bottom: 40px;
+        animation: fadeInDown 1s ease-out;
+      }
+
+      .logo {
+        height: 80px;
+        width: auto;
+        margin-bottom: 20px;
+        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+      }
+
+      .logo-text {
+        color: white;
+        font-size: 24px;
+        font-weight: 600;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      /* Error Card */
+      .error-card {
+        background: white;
+        border-radius: 20px;
+        padding: 40px;
+        max-width: 700px;
+        width: 100%;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        animation: fadeInUp 1s ease-out 0.3s both;
+      }
+
+      .error-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #dc2626, #ef4444, #f87171);
+        animation: pulse 2s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.7;
+        }
+      }
+
+      /* Character Section */
+      .character-section {
+        margin-bottom: 30px;
+        position: relative;
+      }
+
+      .character {
+        width: 150px;
+        height: 150px;
+        margin: 0 auto 20px;
+        background: linear-gradient(135deg, #dc2626, #ef4444);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 80px;
+        animation: shake 3s ease-in-out infinite;
+        box-shadow: 0 10px 20px rgba(220, 38, 38, 0.3);
+        position: relative;
+      }
+
+      .character::before {
+        content: "";
+        position: absolute;
+        top: -5px;
+        left: -5px;
+        right: -5px;
+        bottom: -5px;
+        border-radius: 50%;
+        background: linear-gradient(45deg, #dc2626, #ef4444, #f87171);
+        z-index: -1;
+        animation: rotateGlow 6s linear infinite;
+      }
+
+      @keyframes shake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        10%,
+        30%,
+        50%,
+        70%,
+        90% {
+          transform: translateX(-5px);
+        }
+        20%,
+        40%,
+        60%,
+        80% {
+          transform: translateX(5px);
+        }
+      }
+
+      @keyframes rotateGlow {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .alert-badge {
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        width: 40px;
+        height: 40px;
+        background: #fbbf24;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        animation: blink 2s ease-in-out infinite;
+        border: 3px solid white;
+      }
+
+      @keyframes blink {
+        0%,
+        50% {
+          opacity: 1;
+        }
+        51%,
+        100% {
+          opacity: 0.3;
+        }
+      }
+
+      /* Error Text */
+      .error-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: #111827;
+        margin-bottom: 15px;
+        background: linear-gradient(135deg, #dc2626, #ef4444);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .error-subtitle {
+        font-size: 18px;
+        color: #4b5563;
+        margin-bottom: 25px;
+        font-weight: 500;
+      }
+
+      .error-message {
+        font-size: 16px;
+        color: #6b7280;
+        line-height: 1.6;
+        margin-bottom: 30px;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      /* Alert Section */
+      .alert-section {
+        background: #fef2f2;
+        border-radius: 12px;
+        padding: 25px;
+        margin-bottom: 30px;
+        border-left: 4px solid #dc2626;
+        animation: pulseAlert 2s ease-in-out infinite;
+      }
+
+      @keyframes pulseAlert {
+        0%,
+        100% {
+          box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.2);
+        }
+        50% {
+          box-shadow: 0 0 0 10px rgba(220, 38, 38, 0);
+        }
+      }
+
+      .alert-icon {
+        font-size: 40px;
+        margin-bottom: 15px;
+        animation: alertBounce 2s ease-in-out infinite;
+      }
+
+      @keyframes alertBounce {
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
+          transform: translateY(0);
+        }
+        40% {
+          transform: translateY(-10px);
+        }
+        60% {
+          transform: translateY(-5px);
+        }
+      }
+
+      .alert-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #dc2626;
+        margin-bottom: 10px;
+      }
+
+      .alert-description {
+        font-size: 14px;
+        color: #6b7280;
+        margin-bottom: 15px;
+      }
+
+      /* Email Form */
+      .email-form {
+        margin-bottom: 30px;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-label {
+        display: block;
+        text-align: left;
+        font-size: 14px;
+        font-weight: 500;
+        color: #4b5563;
+        margin-bottom: 8px;
+      }
+
+      .form-input {
+        width: 100%;
+        padding: 12px 16px;
+        border-radius: 8px;
+        border: 2px solid #e5e7eb;
+        font-size: 16px;
+        transition: all 0.3s ease;
+      }
+
+      .form-input:focus {
+        outline: none;
+        border-color: #dc2626;
+        box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.2);
+      }
+
+      .form-input.error {
+        border-color: #dc2626;
+        background-color: #fef2f2;
+      }
+
+      .error-text {
+        color: #dc2626;
+        font-size: 12px;
+        margin-top: 5px;
+        text-align: left;
+        display: block;
+      }
+
+      /* Suggestions */
+      .suggestions {
+        background: #f9fafb;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 30px;
+      }
+
+      .suggestions-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #111827;
+        margin-bottom: 15px;
+      }
+
+      .suggestion-list {
+        list-style: none;
+        text-align: left;
+      }
+
+      .suggestion-item {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 12px;
+        font-size: 14px;
+        color: #4b5563;
+      }
+
+      .suggestion-icon {
+        margin-right: 10px;
+        color: #dc2626;
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
+
+      /* Action Buttons */
+      .action-section {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #dc2626, #b91c1c);
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 50px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(220, 38, 38, 0.4);
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        max-width: 300px;
+      }
+
+      .btn-primary::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: left 0.5s;
+      }
+
+      .btn-primary:hover::before {
+        left: 100%;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(220, 38, 38, 0.6);
+      }
+
+      .btn-secondary {
+        background: transparent;
+        color: #dc2626;
+        border: 2px solid #dc2626;
+        padding: 10px 25px;
+        border-radius: 50px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .btn-secondary:hover {
+        background: #dc2626;
+        color: white;
+        transform: translateY(-2px);
+      }
+
+      /* Animations */
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .container {
+          padding: 15px;
+        }
+
+        .error-card {
+          padding: 30px 20px;
+          margin: 20px 0;
+        }
+
+        .logo {
+          height: 60px;
+        }
+
+        .logo-text {
+          font-size: 20px;
+        }
+
+        .error-title {
+          font-size: 24px;
+        }
+
+        .error-subtitle {
+          font-size: 16px;
+        }
+
+        .character {
+          width: 120px;
+          height: 120px;
+          font-size: 60px;
+        }
+
+        .alert-section {
+          padding: 20px 15px;
+        }
+
+        .action-section {
+          flex-direction: column;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .error-card {
+          padding: 25px 15px;
+        }
+
+        .error-title {
+          font-size: 20px;
+        }
+
+        .character {
+          width: 100px;
+          height: 100px;
+          font-size: 50px;
+        }
+      }
+
+      /* Redirect Section */
+      .redirect-section {
+        margin-bottom: 30px;
+        text-align: center;
+      }
+
+      .redirect-message {
+        font-size: 16px;
+        color: #6b7280;
+        line-height: 1.6;
+        max-width: 500px;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Animated Background -->
+    <div class="animated-bg">
+      <div class="floating-icon">❌</div>
+      <div class="floating-icon">⚠️</div>
+      <div class="floating-icon">📧</div>
+      <div class="floating-icon">❓</div>
+      <div class="floating-icon">😢</div>
+      <div class="floating-icon">🔍</div>
+    </div>
+
+    <div class="container">
+      <!-- Logo Section -->
+      <div class="logo-section">
+        <img
+          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-CawNaA2EeAyiT6Ufy6YCOW6LObOPW0.png"
+          alt="impulsa+UTP Logo"
+          class="logo"
+        />
+        <div class="logo-text">Red Social Universitaria</div>
+      </div>
+
+      <!-- Error Card -->
+      <div class="error-card">
+        <!-- Character Section -->
+        <div class="character-section">
+          <div class="character">
+            😢
+            <div class="alert-badge">⚠️</div>
+          </div>
+        </div>
+
+        <!-- Error Text -->
+        <h1 class="error-title">No pudimos verificar tu correo</h1>
+        <h2 class="error-subtitle">
+          Necesitamos confirmar tu correo institucional
+        </h2>
+        <p class="error-message">
+          Para formar parte de la comunidad <strong>impulsa+UTP</strong>,
+          necesitamos verificar que perteneces a la Universidad Tecnologica del Perú. No pudimos encontrar o validar el correo electrónico que
+          proporcionaste.
+        </p>
+
+        <!-- Alert Section -->
+        <div class="alert-section">
+          <div class="alert-icon">⚠️</div>
+          <div class="alert-title">Correo no encontrado o no válido</div>
+          <div class="alert-description">
+            El correo electrónico que ingresaste no está registrado en nuestra
+            base de datos institucional o no cumple con el formato requerido
+            (@utp.edu.pe).
+          </div>
+        </div>
+
+        <!-- Redirect Section -->
+        <div class="redirect-section">
+          <div class="redirect-message">
+            <p>
+              Si necesitas registrarte nuevamente con el correo correcto, puedes
+              volver al formulario de registro.
+            </p>
+          </div>
+        </div>
+
+        <!-- Suggestions -->
+        <div class="suggestions">
+          <div class="suggestions-title">
+            ¿Por qué podría estar ocurriendo esto?
+          </div>
+          <ul class="suggestion-list">
+            <li class="suggestion-item">
+              <span class="suggestion-icon">•</span>
+              <span
+                >El correo ingresado no pertenece al dominio @utp.edu.pe</span
+              >
+            </li>
+            <li class="suggestion-item">
+              <span class="suggestion-icon">•</span>
+              <span>Tu correo institucional aún no ha sido activado</span>
+            </li>
+            <li class="suggestion-item">
+              <span class="suggestion-icon">•</span>
+              <span>Hay un error tipográfico en la dirección de correo</span>
+            </li>
+            <li class="suggestion-item">
+              <span class="suggestion-icon">•</span>
+              <span
+                >No estás registrado en la base de datos de estudiantes
+                activos</span
+              >
+            </li>
+          </ul>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-section">
+          <button class="btn-primary" onclick="goToRegistration()">
+            📝 Volver al registro
+          
+      </div>
+    </div>
+
+    <script>
+      // Función para volver al registro
+      function goToRegistration() {
+        const button = document.querySelector(".btn-primary");
+        const originalText = button.innerHTML;
+
+        button.innerHTML = "⏳ Redirigiendo...";
+        button.disabled = true;
+
+        showNotification("📝 Redirigiendo al registro...", "info");
+
+        setTimeout(() => {
+          // Aquí puedes cambiar la URL por la página de registro real
+          window.location.href = "registro.html";
+        }, 1500);
+      }
+
+      // Función para contactar soporte
+      function contactSupport() {
+        showNotification(" Redirigiendo al soporte...", "info");
+
+        setTimeout(() => {
+          // Aquí puedes abrir un chat de soporte o redirigir
+          window.open(
+            "mailto:soporte@impulsa-utp.edu.pe?subject=Problema con verificación de correo",
+            "_blank"
+          );
+        }, 1000);
+      }
+
+      // Función para mostrar notificaciones
+      function showNotification(message, type) {
+        const notification = document.createElement("div");
+        notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${
+                  type === "success"
+                    ? "#10b981"
+                    : type === "error"
+                    ? "#dc2626"
+                    : "#3b82f6"
+                };
+                color: white;
+                padding: 15px 20px;
+                border-radius: 10px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+                z-index: 1000;
+                font-weight: 500;
+                animation: slideIn 0.3s ease-out;
+            `;
+        notification.textContent = message;
+
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+          notification.style.animation = "slideOut 0.3s ease-out forwards";
+          setTimeout(() => notification.remove(), 300);
+        }, 3000);
+      }
+
+      // Función para animar elementos con efecto de sacudida
+      function shakeElement(element) {
+        element.classList.add("shake-animation");
+        setTimeout(() => {
+          element.classList.remove("shake-animation");
+        }, 500);
+      }
+
+      // Agregar animaciones CSS para notificaciones y sacudida
+      const style = document.createElement("style");
+      style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+            .shake-animation {
+                animation: shake 0.5s ease-in-out;
+            }
+        `;
+      document.head.appendChild(style);
+
+      // Animación del personaje
+      function animateCharacter() {
+        const character = document.querySelector(".character");
+        const sadEmojis = ["😢", "😔", "😞", "😥", "😟"];
+        let currentIndex = 0;
+
+        setInterval(() => {
+          character.style.transform = "scale(1.1)";
+          setTimeout(() => {
+            character.textContent = sadEmojis[currentIndex];
+            character.style.transform = "scale(1)";
+            currentIndex = (currentIndex + 1) % sadEmojis.length;
+          }, 200);
+        }, 4000);
+      }
+
+      // Validación en tiempo real del correo
+      function setupEmailValidation() {
+        const emailInput = document.getElementById("email");
+        const errorText = document.querySelector(".error-text");
+
+        emailInput.addEventListener("input", function () {
+          const email = this.value.trim();
+          const emailRegex = /^[a-zA-Z0-9._-]+@utp\.edu\.pe$/;
+
+          if (!email) {
+            errorText.textContent = "Por favor ingresa tu correo electrónico";
+            this.classList.add("error");
+          } else if (!emailRegex.test(email)) {
+            errorText.textContent =
+              "Debe ser un correo con dominio @utp.edu.pe";
+            this.classList.add("error");
+          } else {
+            errorText.textContent = "";
+            this.classList.remove("error");
+          }
+        });
+      }
+
+      // Efecto de typing para el título
+      function typeWriter() {
+        const title = document.querySelector(".error-title");
+        const text = "No pudimos verificar tu correo";
+        title.textContent = "";
+
+        let i = 0;
+        const timer = setInterval(() => {
+          if (i < text.length) {
+            title.textContent += text.charAt(i);
+            i++;
+          } else {
+            clearInterval(timer);
+          }
+        }, 80);
+      }
+
+      // Inicializar todo cuando la página carga
+      document.addEventListener("DOMContentLoaded", function () {
+        animateCharacter();
+        //setupEmailValidation();
+
+        // Efecto de typing para el título
+        setTimeout(typeWriter, 500);
+
+        // Efecto de sacudida inicial para llamar la atención
+        setTimeout(() => {
+          shakeElement(document.querySelector(".character"));
+        }, 1500);
+      });
+
+      // Efecto de entrada escalonada
+      window.addEventListener("load", function () {
+        const elements = [
+          ".alert-section",
+          ".email-form",
+          ".suggestions",
+          ".action-section",
+        ];
+        elements.forEach((selector, index) => {
+          const element = document.querySelector(selector);
+          element.style.opacity = "0";
+          element.style.transform = "translateY(20px)";
+
+          setTimeout(() => {
+            element.style.transition = "all 0.5s ease";
+            element.style.opacity = "1";
+            element.style.transform = "translateY(0)";
+          }, 1000 + index * 300);
+        });
+      });
+
+      // Efecto de pulso para el botón principal
+      function pulseButton() {
+        const button = document.querySelector(".btn-primary");
+
+        setInterval(() => {
+          button.style.transform = "scale(1.05)";
+          setTimeout(() => {
+            button.style.transform = "scale(1)";
+          }, 200);
+        }, 3000);
+      }
+
+      // Iniciar efecto de pulso para el botón
+      setTimeout(pulseButton, 2000);
+    </script>
+  </body>
+</html>

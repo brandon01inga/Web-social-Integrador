@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Impulsa+UTP - Feed</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4; /* Light gray for body background */
+    }
+
+    header {
+      background: #D52B1E; /* Primary red, like the Peruvian flag */
+      color: white;
+      padding: 20px 60px; /* Adjust padding for logo */
+      text-align: center;
+      position: relative; /* Keep relative for logo positioning */
+    }
+
+    /* Header logo and text styles are still inline as they are specific to the header structure */
+
+    nav {
+      background: #B12418; /* Slightly darker red for navigation */
+      text-align: center;
+    }
+
+    nav a {
+      color: white;
+      padding: 14px 20px;
+      display: inline-block;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    nav a:hover {
+      background: #8C1B13; /* Even darker red on hover */
+    }
+
+    .feed-container {
+      max-width: 700px; /* Max width for the feed */
+      margin: 20px auto; /* Center the feed */
+      padding: 0 15px; /* Add some padding on sides */
+    }
+
+    .post-card {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .post-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .post-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #ccc; /* Placeholder for avatar */
+      margin-right: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      color: #333;
+      overflow: hidden; /* Ensure image fits */
+    }
+
+    .post-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .post-info strong {
+      display: block;
+      font-size: 16px;
+      color: #333;
+    }
+
+    .post-info span {
+      font-size: 12px;
+      color: #777;
+    }
+
+    .post-content p {
+      line-height: 1.6;
+      color: #333;
+      margin-bottom: 15px;
+    }
+
+    .post-image {
+      max-width: 100%;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      display: block; /* Ensures no extra space below image */
+    }
+
+    .post-actions {
+      border-top: 1px solid #eee;
+      padding-top: 10px;
+      display: flex;
+      justify-content: space-around;
+      gap: 10px;
+    }
+
+    .post-actions button {
+      flex: 1;
+      padding: 8px 15px;
+      background: #f0f2f5;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      color: #555;
+      transition: background 0.2s ease;
+    }
+
+    .post-actions button:hover {
+      background: #e0e2e5;
+    }
+
+    .post-actions .like-button {
+      color: #D52B1E; /* Red for like button icon */
+    }
+
+    .post-actions .like-button.liked {
+        background: #D52B1E;
+        color: white;
+    }
+
+
+    footer {
+      background: #D52B1E; /* Primary red footer */
+      color: white;
+      text-align: center;
+      padding: 10px;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <header style="position: relative;">
+    <img src="assets/imgx/Impulsa.jpeg" alt="Logo ColaboraEdu"
+          style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); height: 50px;">
+
+    <div style="text-align: center;">
+      <h1 style="margin: 0;">Impulsa+UTP</h1>
+      <p style="margin: 0;">Una plataforma para conectar estudiantes y profesores en proyectos colaborativos</p>
+    </div>
+  </header>
+
+  <nav>
+    <a href="home.html">Home</a>
+    <a href="index.html">Feed</a>
+    <a href="login.html">Login</a>
+    
+  </nav>
+
+  <div class="feed-container">
+    <div class="post-card">
+      <div class="post-header">
+        <div class="post-avatar"><img src="https://via.placeholder.com/40/FF0000/FFFFFF?text=P" alt="Profile Picture"></div>
+        <div class="post-info">
+          <strong>Prof. Ana García</strong>
+          <span>Hace 2 horas</span>
+        </div>
+      </div>
+      <div class="post-content">
+        <p>¡Hola a todos! Estoy buscando estudiantes interesados en un proyecto de investigación sobre **Inteligencia Artificial aplicada a la educación**. Es una excelente oportunidad para aplicar conocimientos de ML y desarrollo de software. ¡Déjenme un comentario si les interesa!</p>
+        <img src="https://via.placeholder.com/600x350/D52B1E/FFFFFF?text=Proyecto+IA+Educación" alt="AI Education Project" class="post-image">
+      </div>
+      <div class="post-actions">
+        <button class="like-button" onclick="toggleLike(this)"><span class="like-icon">👍</span> Me gusta</button>
+        <button>💬 Comentar</button>
+        <button>🔄 Compartir</button>
+      </div>
+    </div>
+
+    <div class="post-card">
+      <div class="post-header">
+        <div class="post-avatar"><img src="https://via.placeholder.com/40/0000FF/FFFFFF?text=J" alt="Profile Picture"></div>
+        <div class="post-info">
+          <strong>Juan Pérez (Estudiante)</strong>
+          <span>Ayer a las 14:30</span>
+        </div>
+      </div>
+      <div class="post-content">
+        <p>Finalizando mi proyecto de **Realidad Virtual para simulaciones de ingeniería**. ¡Fue un desafío enorme pero muy gratificante! Gracias al Prof. Carlos por su guía. #RV #Ingeniería #UTP</p>
+        <img src="https://via.placeholder.com/600x350/FFD700/333333?text=Simulación+RV" alt="VR Simulation" class="post-image">
+      </div>
+      <div class="post-actions">
+        <button class="like-button" onclick="toggleLike(this)"><span class="like-icon">👍</span> Me gusta</button>
+        <button>💬 Comentar</button>
+        <button>🔄 Compartir</button>
+      </div>
+    </div>
+
+    <div class="post-card">
+      <div class="post-header">
+        <div class="post-avatar"><img src="https://via.placeholder.com/40/008000/FFFFFF?text=M" alt="Profile Picture"></div>
+        <div class="post-info">
+          <strong>María Quispe (Estudiante)</strong>
+          <span>Hace 4 horas</span>
+        </div>
+      </div>
+      <div class="post-content">
+        <p>Estoy buscando un equipo para desarrollar un sistema de gestión de bibliotecas usando Python y Django. ¿Alguien con experiencia en desarrollo web backend interesado en colaborar? #DesarrolloWeb #Python #Django</p>
+      </div>
+      <div class="post-actions">
+        <button class="like-button" onclick="toggleLike(this)"><span class="like-icon">👍</span> Me gusta</button>
+        <button>💬 Comentar</button>
+        <button>🔄 Compartir</button>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Impulsa+UTP. Todos los derechos reservados.</p>
+  </footer>
+
+  <script>
+    function toggleLike(button) {
+      button.classList.toggle('liked');
+      if (button.classList.contains('liked')) {
+        button.innerHTML = '<span class="like-icon">❤️</span> Me gusta';
+      } else {
+        button.innerHTML = '<span class="like-icon">👍</span> Me gusta';
+      }
+    }
+  </script>
+</body>
+</html>
